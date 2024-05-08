@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FuelAccounting.Context.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init_3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,6 +105,28 @@ namespace FuelAccounting.Context.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trucks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Patronymic = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Mail = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,12 +284,22 @@ namespace FuelAccounting.Context.Migrations
                 column: "Vin",
                 unique: true,
                 filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Mail",
+                table: "Users",
+                column: "Mail",
+                unique: true,
+                filter: "DeletedAt is null");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "FuelAccountingItems");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Drivers");

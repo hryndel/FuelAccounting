@@ -19,6 +19,7 @@ namespace FuelAccounting.Context
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Trailer> Trailers { get; set; }
         public DbSet<Truck> Trucks { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public FuelAccountingContext(DbContextOptions<FuelAccountingContext> options) : base(options) { }
 
