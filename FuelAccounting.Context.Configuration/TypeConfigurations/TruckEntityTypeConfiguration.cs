@@ -1,5 +1,4 @@
-﻿using FuelAccounting.Common.Entity.EntityInterfaces;
-using FuelAccounting.Context.Contracts.Models;
+﻿using FuelAccounting.Context.Contracts.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
