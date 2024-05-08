@@ -28,5 +28,8 @@ namespace FuelAccounting.Context.Contracts
 
         /// <summary>Список <inheritdoc cref="Truck"/></summary>
         DbSet<Truck> Trucks { get; }
+
+        /// <summary>Список <inheritdoc cref="User"/></summary>
+        DbSet<User> Users { get; }
     }
 }
