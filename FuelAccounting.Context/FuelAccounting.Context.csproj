@@ -22,6 +22,7 @@
     <ProjectReference Include="..\FuelAccounting.Common.Entity\FuelAccounting.Common.Entity.csproj" />
     <ProjectReference Include="..\FuelAccounting.Common\FuelAccounting.Common.csproj" />
     <ProjectReference Include="..\FuelAccounting.Context.Configuration\FuelAccounting.Context.Configuration.csproj" />
+    <ProjectReference Include="..\FuelAccounting.Context.Contracts\FuelAccounting.Context.Contracts.csproj" />
     <ProjectReference Include="..\FuelAccounting\FuelAccounting.Context.Contracts.csproj" />
   </ItemGroup>
 

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FuelAccounting.Context.Contracts\FuelAccounting.Context.Contracts.csproj" />
     <ProjectReference Include="..\FuelAccounting\FuelAccounting.Context.Contracts.csproj" />
   </ItemGroup>
 
