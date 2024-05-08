@@ -1,4 +1,6 @@
-﻿namespace FuelAccounting.Context.Contracts.Models
+﻿using FuelAccounting.Context.Contracts.Enums;
+
+namespace FuelAccounting.Context.Contracts.Models
 {
     /// <summary>
     /// Сущность пользователя
@@ -34,5 +36,10 @@
         /// Пароль
         /// </summary>
         public string Password { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Тип
+        /// </summary>
+        public UserTypes UserType { get; set; } = UserTypes.Employee;
     }
 }
