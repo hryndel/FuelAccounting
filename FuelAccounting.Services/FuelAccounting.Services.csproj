@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FuelAccounting.Common\FuelAccounting.Common.csproj" />
     <ProjectReference Include="..\FuelAccounting.Context.Contracts\FuelAccounting.Context.Contracts.csproj" />
+    <ProjectReference Include="..\FuelAccounting.Repositories.Contracts\FuelAccounting.Repositories.Contracts.csproj" />
     <ProjectReference Include="..\FuelAccounting.Services.Contracts\FuelAccounting.Services.Contracts.csproj" />
     <ProjectReference Include="..\FuelAccounting.Shared\FuelAccounting.Shared.csproj" />
   </ItemGroup>

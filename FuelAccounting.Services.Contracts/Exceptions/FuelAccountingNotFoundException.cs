@@ -3,7 +3,7 @@
     /// <summary>
     /// Запрашиваемый ресурс не найден
     /// </summary>
-    internal class FuelAccountingNotFoundException : FuelAccountingException
+    public class FuelAccountingNotFoundException : FuelAccountingException
     {
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="FuelAccountingNotFoundException"/> с указанием

@@ -8,7 +8,7 @@
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="FuelAccountingEntityNotFoundException{TEntity}"/>
         /// </summary>
-        public FuelDeliveryEntityNotFoundException(Guid id)
+        public FuelAccountingEntityNotFoundException(Guid id)
             : base($"Сущность {typeof(TEntity)} c id = {id} не найдена.")
         { }
     }
