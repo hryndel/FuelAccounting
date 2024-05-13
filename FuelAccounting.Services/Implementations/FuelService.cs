@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FuelAccounting.Common.Entity.InterfacesDB;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.Exceptions;
@@ -64,7 +65,7 @@ namespace FuelAccounting.Services.Implementations
             var item = new Fuel
             {
                 Id = Guid.NewGuid(),
-                FuelType = (Context.Contracts.Enums.FuelTypes)fuel.FuelType,
+                FuelType = (FuelTypes)fuel.FuelType,
                 Price = fuel.Price,
                 SupplierId = fuel.SupplierId,
                 Count = fuel.Count
@@ -83,7 +84,7 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Fuel>(source.Id);
             }
 
-            targetFuel.FuelType = (Context.Contracts.Enums.FuelTypes)source.FuelType;
+            targetFuel.FuelType = (FuelTypes)source.FuelType;
             targetFuel.Price = source.Price;
             targetFuel.Count = source.Count;
 
