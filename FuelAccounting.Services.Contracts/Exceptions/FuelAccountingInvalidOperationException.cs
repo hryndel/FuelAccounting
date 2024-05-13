@@ -3,7 +3,7 @@
     /// <summary>
     /// Ошибка выполнения операции
     /// </summary>
-    internal class FuelAccountingInvalidOperationException : FuelAccountingException
+    public class FuelAccountingInvalidOperationException : FuelAccountingException
     {
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="FuelAccountingInvalidOperationException"/>
