@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuelAccounting.Context.Migrations
 {
     [DbContext(typeof(FuelAccountingContext))]
-    [Migration("20240508093028_Init_3")]
-    partial class Init_3
+    [Migration("20240513120743_Init_4")]
+    partial class Init_4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,6 +136,9 @@ namespace FuelAccounting.Context.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Count")
+                        .HasColumnType("float");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -448,6 +451,9 @@ namespace FuelAccounting.Context.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
