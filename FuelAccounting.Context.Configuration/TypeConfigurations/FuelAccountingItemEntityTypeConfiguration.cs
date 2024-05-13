@@ -12,6 +12,9 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
 
+            builder.Property(x => x.Count)
+                .IsRequired();
+
             builder.Property(x => x.StartDate)
                 .IsRequired();
 

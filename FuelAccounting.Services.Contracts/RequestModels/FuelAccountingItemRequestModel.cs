@@ -33,6 +33,11 @@ namespace FuelAccounting.Services.Contracts.RequestModels
         public Guid FuelId { get; set; }
 
         /// <summary>
+        /// Количество топлива
+        /// </summary>
+        public double Count { get; set; }
+
+        /// <summary>
         /// <inheritdoc cref="FuelStationModel"/>
         /// </summary>
         public Guid FuelStationId { get; set; }

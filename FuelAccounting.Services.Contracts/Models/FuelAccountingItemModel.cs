@@ -31,6 +31,11 @@
         public FuelModel Fuel { get; set; }
 
         /// <summary>
+        /// Количество топлива
+        /// </summary>
+        public double Count { get; set; }
+
+        /// <summary>
         /// <inheritdoc cref="FuelStationModel"/>
         /// </summary>
         public FuelStationModel FuelStation { get; set; }
