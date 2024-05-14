@@ -44,6 +44,11 @@
         /// Связь один ко многим
         /// </summary>
         public Fuel Fuel { get; set; }
+
+        /// <summary>
+        /// Количество топлива
+        /// </summary>
+        public double Count { get; set; }
         
         /// <summary>
         /// Идентификатор <inheritdoc cref="FuelStation"/>

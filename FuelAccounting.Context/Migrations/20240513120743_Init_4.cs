@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FuelAccounting.Context.Migrations
 {
-    public partial class Init_3 : Migration
+    public partial class Init_4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -118,6 +118,7 @@ namespace FuelAccounting.Context.Migrations
                     Mail = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
                     Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    UserType = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -164,6 +165,7 @@ namespace FuelAccounting.Context.Migrations
                     TruckId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TrailerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FuelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Count = table.Column<double>(type: "float", nullable: false),
                     FuelStationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
