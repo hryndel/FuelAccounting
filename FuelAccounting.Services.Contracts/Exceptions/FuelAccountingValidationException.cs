@@ -13,7 +13,7 @@ namespace FuelAccounting.Services.Contracts.Exceptions
         public IEnumerable<InvalidateItemModel> Errors { get; }
 
         /// <summary>
-        /// Инициализирует новый экземпляр <see cref="AdministrationValidationException"/>
+        /// Инициализирует новый экземпляр <see cref="FuelAccountingValidationException"/>
         /// </summary>
         public FuelAccountingValidationException(IEnumerable<InvalidateItemModel> errors)
         {
