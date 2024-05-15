@@ -22,7 +22,7 @@ namespace FuelAccounting.Repositories.Implementations
 
         public void UpdateFuelCount([NotNull] Fuel item, double count)
         {
-            item.Count -= count;
+            item.Count += count;
             AuditForUpdate(item);
             writerContext.Writer.Update(item);
         }

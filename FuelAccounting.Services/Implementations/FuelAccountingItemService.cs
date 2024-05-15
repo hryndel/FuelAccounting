@@ -177,11 +177,12 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем на базе.");
             }
 
+            fuelWriteRepository.UpdateFuelCount(fuel, targetFuelDeliveryItem.Count - source.Count);
+
             targetFuelDeliveryItem.Count = source.Count;
             targetFuelDeliveryItem.StartDate = source.StartDate;
             targetFuelDeliveryItem.EndDate = source.EndDate;
 
-            fuelWriteRepository.UpdateFuelCount(fuel, source.Count - targetFuelDeliveryItem.Count);
             fuelDeliveryItemWriteRepository.Update(targetFuelDeliveryItem);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<FuelAccountingItemModel>(targetFuelDeliveryItem);
