@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FuelAccounting.Context.Migrations
 {
-    public partial class Init_4 : Migration
+    public partial class Init_5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

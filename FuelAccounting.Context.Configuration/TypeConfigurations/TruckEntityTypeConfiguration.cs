@@ -14,7 +14,7 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
 
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
                 
             builder.Property(x => x.Number)
                 .IsRequired()
