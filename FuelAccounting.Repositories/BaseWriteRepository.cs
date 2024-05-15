@@ -64,7 +64,7 @@ namespace FuelAccounting.Repositories
             }
         }
 
-        private void AuditForUpdate([NotNull] T entity)
+        public void AuditForUpdate([NotNull] T entity)
         {
             if (entity is IEntityAuditUpdated auditUpdate)
             {

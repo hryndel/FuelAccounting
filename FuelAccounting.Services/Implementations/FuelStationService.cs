@@ -86,7 +86,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetFuelStation.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"АЗС с идентификатором {id} уже удалена");
+                throw new FuelAccountingInvalidOperationException($"АЗС с идентификатором {id} уже удалена.");
             }
 
             fuelStationWriteRepository.Delete(targetFuelStation);

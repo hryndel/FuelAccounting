@@ -86,7 +86,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetDriver.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Грузовик с идентификатором {id} уже удален");
+                throw new FuelAccountingInvalidOperationException($"Грузовик с идентификатором {id} уже удален.");
             }
 
             truckWriteRepository.Delete(targetDriver);

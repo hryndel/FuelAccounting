@@ -17,6 +17,7 @@ namespace FuelAccounting.Services.Implementations
         private readonly ITruckReadRepository truckReadRepository;
         private readonly ITrailerReadRepository trailerReadRepository;
         private readonly IFuelReadRepository fuelReadRepository;
+        private readonly IFuelWriteRepository fuelWriteRepository;
         private readonly IFuelStationReadRepository fuelStationReadRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
@@ -27,6 +28,7 @@ namespace FuelAccounting.Services.Implementations
             ITruckReadRepository truckReadRepository,
             ITrailerReadRepository trailerReadRepository,
             IFuelReadRepository fuelReadRepository,
+            IFuelWriteRepository fuelWriteRepository,
             IFuelStationReadRepository fuelStationReadRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -37,6 +39,7 @@ namespace FuelAccounting.Services.Implementations
             this.truckReadRepository = truckReadRepository;
             this.trailerReadRepository = trailerReadRepository;
             this.fuelReadRepository = fuelReadRepository;
+            this.fuelWriteRepository = fuelWriteRepository;
             this.fuelStationReadRepository = fuelStationReadRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -104,6 +107,18 @@ namespace FuelAccounting.Services.Implementations
 
         async Task<FuelAccountingItemModel> IFuelAccountingItemService.AddAsync(FuelAccountingItemRequestModel fuelDeliveryItem, CancellationToken cancellationToken)
         {
+            var trailer = await trailerReadRepository.GetByIdAsync(fuelDeliveryItem.TrailerId, cancellationToken);
+            var fuel = await fuelReadRepository.GetByIdAsync(fuelDeliveryItem.FuelId, cancellationToken);
+            if (fuelDeliveryItem.Count > trailer!.Capacity)
+            {
+                throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем в полуприцепе.");
+            }
+
+            if (fuelDeliveryItem.Count > fuel!.Count)
+            {
+                throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем на базе.");
+            }
+
             var item = new FuelAccountingItem
             {
                 Id = Guid.NewGuid(),
@@ -117,6 +132,7 @@ namespace FuelAccounting.Services.Implementations
                 EndDate = fuelDeliveryItem.EndDate
             };
 
+            fuelWriteRepository.UpdateFuelCount(fuel, item.Count);
             fuelDeliveryItemWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<FuelAccountingItemModel>(item);
@@ -125,15 +141,10 @@ namespace FuelAccounting.Services.Implementations
         async Task<FuelAccountingItemModel> IFuelAccountingItemService.EditAsync(FuelAccountingItemRequestModel source, CancellationToken cancellationToken)
         {
             var targetFuelDeliveryItem = await fuelDeliveryItemReadRepository.GetByIdAsync(source.Id, cancellationToken);
-
             if (targetFuelDeliveryItem == null)
             {
                 throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(source.Id);
             }
-
-            targetFuelDeliveryItem.Count = source.Count;
-            targetFuelDeliveryItem.StartDate = source.StartDate;
-            targetFuelDeliveryItem.EndDate = source.EndDate;
 
             var driver = await driverReadRepository.GetByIdAsync(source.DriverId, cancellationToken);
             targetFuelDeliveryItem.DriverId = driver!.Id;
@@ -155,6 +166,22 @@ namespace FuelAccounting.Services.Implementations
             targetFuelDeliveryItem.FuelStationId = fuelStation!.Id;
             targetFuelDeliveryItem.FuelStation = fuelStation;
 
+
+            if (targetFuelDeliveryItem.Count > trailer.Capacity)
+            {
+                throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем в полуприцепе.");
+            }
+
+            if (fuel.Count + targetFuelDeliveryItem.Count - source.Count < 0)
+            {
+                throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем на базе.");
+            }
+
+            targetFuelDeliveryItem.Count = source.Count;
+            targetFuelDeliveryItem.StartDate = source.StartDate;
+            targetFuelDeliveryItem.EndDate = source.EndDate;
+
+            fuelWriteRepository.UpdateFuelCount(fuel, source.Count - targetFuelDeliveryItem.Count);
             fuelDeliveryItemWriteRepository.Update(targetFuelDeliveryItem);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<FuelAccountingItemModel>(targetFuelDeliveryItem);
@@ -170,7 +197,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetFuelDeliveryItem.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Документ с идентификатором {id} уже удален");
+                throw new FuelAccountingInvalidOperationException($"Документ с идентификатором {id} уже удален.");
             }
 
             fuelDeliveryItemWriteRepository.Delete(targetFuelDeliveryItem);

@@ -1,4 +1,5 @@
 ﻿using FuelAccounting.Context.Contracts.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FuelAccounting.Repositories.Contracts.Interfaces
 {
@@ -7,5 +8,9 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
     /// </summary>
     public interface IFuelWriteRepository : IRepositoryWriter<Fuel>
     {
+        /// <summary>
+        /// Изменить количество топлива <see cref="Fuel"/>
+        /// </summary>
+        void UpdateFuelCount([NotNull] Fuel item, double count);
     }
 }

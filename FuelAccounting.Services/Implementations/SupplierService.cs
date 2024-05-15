@@ -88,7 +88,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetSupplier.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Поставщик с идентификатором {id} уже удален");
+                throw new FuelAccountingInvalidOperationException($"Поставщик с идентификатором {id} уже удален.");
             }
 
             supplierWriteRepository.Delete(targetSupplier);
