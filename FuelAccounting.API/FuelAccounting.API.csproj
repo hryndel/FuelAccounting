@@ -14,4 +14,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FuelAccounting.Services.Contracts\FuelAccounting.Services.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
