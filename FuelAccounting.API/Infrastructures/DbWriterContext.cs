@@ -29,6 +29,6 @@ namespace FuelAccounting.API.Infrastructures
         public IDateTimeProvider DateTimeProvider { get; }
 
         /// <inheritdoc/>
-        public string UserName { get; } = "Test";
+        public string UserName { get; } = "FuelAccounting.API";
     }
 }

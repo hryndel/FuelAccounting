@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FuelAccounting.Context\FuelAccounting.Context.csproj" />
     <ProjectReference Include="..\FuelAccounting.Repositories.Contracts\FuelAccounting.Repositories.Contracts.csproj" />
     <ProjectReference Include="..\FuelAccounting.Repositories\FuelAccounting.Repositories.csproj" />
