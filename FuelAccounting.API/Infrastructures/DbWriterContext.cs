@@ -19,16 +19,16 @@ namespace FuelAccounting.API.Infrastructures
             DateTimeProvider = dateTimeProvider;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDbWriter"/>
         public IDbWriter Writer { get; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IUnitOfWork"/>
         public IUnitOfWork UnitOfWork { get; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDateTimeProvider"/>
         public IDateTimeProvider DateTimeProvider { get; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="UserName"/>
         public string UserName { get; } = "FuelAccounting.API";
     }
 }
