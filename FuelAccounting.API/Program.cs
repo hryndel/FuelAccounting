@@ -1,25 +1,32 @@
+using FuelAccounting.API.Infrastructures;
+using FuelAccounting.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllers(x =>
+{
+    x.Filters.Add<FuelAccountingExceptionFiltr>();
+}).AddControllersAsServices();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.GetSwaggerDocument();
+builder.Services.AddDependencies();
+
+var conString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContextFactory<FuelAccountingContext>(options => options.UseSqlServer(conString), ServiceLifetime.Scoped);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.GetSwaggerDocumnetUI();
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+
+public partial class Program { }
