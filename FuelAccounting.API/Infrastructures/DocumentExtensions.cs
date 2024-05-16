@@ -9,7 +9,7 @@ namespace FuelAccounting.API.Infrastructures
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("Driver", new OpenApiInfo { Title = "Сущность водителя", Version = "v1" });
-                c.SwaggerDoc("FuelDeliveryItem", new OpenApiInfo { Title = "Сущность документа", Version = "v1" });
+                c.SwaggerDoc("FuelAccountingItem", new OpenApiInfo { Title = "Сущность накладной", Version = "v1" });
                 c.SwaggerDoc("Fuel", new OpenApiInfo { Title = "Сущность топлива", Version = "v1" });
                 c.SwaggerDoc("FuelStation", new OpenApiInfo { Title = "Сущность АЗС", Version = "v1" });
                 c.SwaggerDoc("Supplier", new OpenApiInfo { Title = "Сущность поставщика", Version = "v1" });
@@ -17,7 +17,7 @@ namespace FuelAccounting.API.Infrastructures
                 c.SwaggerDoc("Truck", new OpenApiInfo { Title = "Сущность грузовика", Version = "v1" });
                 c.SwaggerDoc("User", new OpenApiInfo { Title = "Сущность пользователя", Version = "v1" });
 
-                var filePath = Path.Combine(AppContext.BaseDirectory, "FuelDelivery.Api.xml");
+                var filePath = Path.Combine(AppContext.BaseDirectory, "FuelAccounting.API.xml");
                 c.IncludeXmlComments(filePath);
             });
         }
@@ -27,7 +27,7 @@ namespace FuelAccounting.API.Infrastructures
             app.UseSwaggerUI(x =>
             {
                 x.SwaggerEndpoint("Driver/swagger.json", "Водители");
-                x.SwaggerEndpoint("FuelDeliveryItem/swagger.json", "Документы");
+                x.SwaggerEndpoint("FuelAccountingItem/swagger.json", "Накладные");
                 x.SwaggerEndpoint("Fuel/swagger.json", "Виды топлива");
                 x.SwaggerEndpoint("FuelStation/swagger.json", "АЗС");
                 x.SwaggerEndpoint("Supplier/swagger.json", "Поставщики");

@@ -1,5 +1,5 @@
-﻿using FuelAccounting.Common.Entity.InterfacesDB;
-using FuelAccounting.Common;
+﻿using FuelAccounting.Common;
+using FuelAccounting.Common.Entity.InterfacesDB;
 
 namespace FuelAccounting.API.Infrastructures
 {
