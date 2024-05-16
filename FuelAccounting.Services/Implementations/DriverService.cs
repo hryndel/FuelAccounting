@@ -90,7 +90,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetDriver.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Водитель с идентификатором {id} уже удален");
+                throw new FuelAccountingInvalidOperationException($"Водитель с идентификатором {id} уже удален.");
             }
 
             driverWriteRepository.Delete(targetDriver);

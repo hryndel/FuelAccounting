@@ -6,11 +6,6 @@ using FuelAccounting.Services.Contracts.Exceptions;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.Models;
 using FuelAccounting.Services.Contracts.RequestModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FuelAccounting.Services.Implementations
 {
@@ -91,7 +86,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetFuelStation.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"АЗС с идентификатором {id} уже удалена");
+                throw new FuelAccountingInvalidOperationException($"АЗС с идентификатором {id} уже удалена.");
             }
 
             fuelStationWriteRepository.Delete(targetFuelStation);

@@ -107,7 +107,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetFuel.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Топливо с идентификатором {id} уже удалено");
+                throw new FuelAccountingInvalidOperationException($"Топливо с идентификатором {id} уже удалено.");
             }
 
             fuelWriteRepository.Delete(targetFuel);

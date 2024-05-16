@@ -95,7 +95,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetUser.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Пользователь с идентификатором {id} уже удален");
+                throw new FuelAccountingInvalidOperationException($"Пользователь с идентификатором {id} уже удален.");
             }
 
             userWriteRepository.Delete(targetUser);

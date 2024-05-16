@@ -84,7 +84,7 @@ namespace FuelAccounting.Services.Implementations
 
             if (targetTrailer.DeletedAt.HasValue)
             {
-                throw new FuelAccountingInvalidOperationException($"Полуприцеп с идентификатором {id} уже удален");
+                throw new FuelAccountingInvalidOperationException($"Полуприцеп с идентификатором {id} уже удален.");
             }
 
             trailerWriteRepository.Delete(targetTrailer);
