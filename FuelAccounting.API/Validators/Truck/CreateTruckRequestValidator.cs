@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using FuelAccounting.API.ModelsRequest.Truck;
 using FuelAccounting.Repositories.Contracts.Interfaces;
-using FuelAccounting.Repositories.Implementations;
 
 namespace FuelAccounting.API.Validators.Truck
 {
