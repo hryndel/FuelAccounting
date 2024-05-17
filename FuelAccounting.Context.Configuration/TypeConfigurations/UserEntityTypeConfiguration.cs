@@ -32,13 +32,12 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
                 .HasMaxLength(20);
 
             builder.Property(x => x.Password)
-                .IsRequired()
-                .HasMaxLength(20);
+                .IsRequired();
 
-            builder.HasIndex(x => x.Mail)
+            builder.HasIndex(x => x.Login)
                 .IsUnique()
                 .HasFilter($"{nameof(User.DeletedAt)} is null")
-                .HasDatabaseName($"IX_{nameof(User)}_{nameof(User.Mail)}");
+                .HasDatabaseName($"IX_{nameof(User)}_{nameof(User.Login)}");
         }
     }
 }

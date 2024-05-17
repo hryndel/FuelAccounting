@@ -21,21 +21,17 @@ namespace FuelAccounting.API.Infrastructures
             switch (exception)
             {
                 case FuelAccountingValidationException ex:
-                    SetDataToContext(
-                        new ConflictObjectResult(new ApiValidationExceptionDetail
-                        {
-                            Errors = ex.Errors,
-                        }),
-                        context);
+                    SetDataToContext(new ConflictObjectResult(new ApiValidationExceptionDetail
+                    {
+                        Errors = ex.Errors,
+                    }), context);
                     break;
 
                 case FuelAccountingInvalidOperationException ex:
-                    SetDataToContext(
-                        new BadRequestObjectResult(new ApiExceptionDetail { Message = ex.Message, })
-                        {
-                            StatusCode = StatusCodes.Status406NotAcceptable,
-                        },
-                        context);
+                    SetDataToContext(new BadRequestObjectResult(new ApiExceptionDetail { Message = ex.Message, })
+                    {
+                       StatusCode = StatusCodes.Status406NotAcceptable,
+                    }, context);
                     break;
 
                 case FuelAccountingNotFoundException ex:

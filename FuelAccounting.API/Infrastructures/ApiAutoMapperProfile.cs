@@ -9,6 +9,7 @@ using FuelAccounting.API.ModelsRequest.FuelStation;
 using FuelAccounting.API.ModelsRequest.Supplier;
 using FuelAccounting.API.ModelsRequest.Trailer;
 using FuelAccounting.API.ModelsRequest.Truck;
+using FuelAccounting.API.ModelsRequest.User;
 using FuelAccounting.Services.Contracts.Models;
 using FuelAccounting.Services.Contracts.Models.Enums;
 using FuelAccounting.Services.Contracts.RequestModels;
@@ -63,6 +64,11 @@ namespace FuelAccounting.API.Infrastructures
             CreateMap<CreateFuelStationRequest, FuelStationRequestModel>(MemberList.Destination)
                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<FuelStationRequest, FuelStationRequestModel>(MemberList.Destination);
+
+            CreateMap<UserModel, UserResponse>(MemberList.Destination);
+            CreateMap<CreateUserRequest, UserRequestModel>(MemberList.Destination)
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<UserRequest, UserRequestModel>(MemberList.Destination);
 
             CreateMap<FuelAccountingItemModel, FuelAccountingItemResponse>(MemberList.Destination)
                 .ForMember(x => x.Driver, opt => opt.MapFrom(x => $"{x.Driver.FirstName} {x.Driver.LastName} {x.Driver.Patronymic}"))

@@ -44,11 +44,15 @@ namespace FuelAccounting.API.Validators.User
             RuleFor(user => user.Password)
                 .NotNull().WithMessage("Пароль не должен быть null.")
                 .NotEmpty().WithMessage("Пароль не должен быть пустым.")
+                .Matches(@"[0-9]+").WithMessage("Пароль должен содержать цифру.")
+                .Matches(@"[A-Z]+").WithMessage("Пароль должен содержать прописную букву.")
+                .Matches(@"[a-z]+").WithMessage("Пароль должен содержать строчную букву.")
+                .Matches(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]+").WithMessage("Пароль должен содержать специальный символ.")
                 .Length(2, 20).WithMessage("Пароль не должен быть меньше 2 и больше 20 символов.");
 
             RuleFor(user => user.UserType)
                 .NotNull().WithMessage("Тип не должен быть null.")
-                .NotEmpty().WithMessage("Тип не должен быть пустым.");
+                .IsInEnum().WithMessage("Тип не существует.");
         }
     }
 }

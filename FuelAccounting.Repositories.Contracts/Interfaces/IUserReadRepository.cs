@@ -26,5 +26,11 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
         /// Проверка есть ли <see cref="User"/> по указанному id
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверка есть ли последний админ <see cref="User"/>
+        /// </summary>
+        /// <returns></returns>
+        Task<IReadOnlyCollection<User>> GetByAdminRoleAsync(CancellationToken cancellationToken);
     }
 }

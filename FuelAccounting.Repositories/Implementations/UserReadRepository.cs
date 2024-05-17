@@ -1,5 +1,6 @@
 ﻿using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Common.Entity.Repositories;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -39,5 +40,11 @@ namespace FuelAccounting.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .AnyAsync(cancellationToken);
+
+        Task<IReadOnlyCollection<User>> IUserReadRepository.GetByAdminRoleAsync(CancellationToken cancellationToken)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .Where(x => x.UserType == UserTypes.Administrator)
+                .ToReadOnlyCollectionAsync(cancellationToken);
     }
 }

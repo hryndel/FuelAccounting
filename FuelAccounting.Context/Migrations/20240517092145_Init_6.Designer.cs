@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuelAccounting.Context.Migrations
 {
     [DbContext(typeof(FuelAccountingContext))]
-    [Migration("20240515091656_Init_5")]
-    partial class Init_5
+    [Migration("20240517092145_Init_6")]
+    partial class Init_6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -367,8 +367,8 @@ namespace FuelAccounting.Context.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Number")
                         .IsRequired()
@@ -437,8 +437,7 @@ namespace FuelAccounting.Context.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Patronymic")
                         .HasMaxLength(50)
@@ -457,9 +456,9 @@ namespace FuelAccounting.Context.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Mail")
+                    b.HasIndex("Login")
                         .IsUnique()
-                        .HasDatabaseName("IX_User_Mail")
+                        .HasDatabaseName("IX_User_Login")
                         .HasFilter("DeletedAt is null");
 
                     b.ToTable("Users", (string)null);
