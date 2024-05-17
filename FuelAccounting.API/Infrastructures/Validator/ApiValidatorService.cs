@@ -22,10 +22,11 @@ namespace FuelAccounting.API.Infrastructures.Validator
             ITrailerReadRepository trailerReadRepository,
             IFuelReadRepository fuelReadRepository,
             IFuelStationReadRepository fuelStationReadRepository, 
-            ISupplierReadRepository supplierReadRepository)
+            ISupplierReadRepository supplierReadRepository,
+            IUserReadRepository userReadRepository)
         {
-            Register<CreateDriverRequestValidator>();
-            Register<DriverRequestValidator>();
+            Register<CreateDriverRequestValidator>(driverReadRepository);
+            Register<DriverRequestValidator>(driverReadRepository);
 
             Register<CreateFuelRequestValidator>(supplierReadRepository);
             Register<FuelRequestValidator>(supplierReadRepository);
@@ -33,20 +34,20 @@ namespace FuelAccounting.API.Infrastructures.Validator
             Register<CreateFuelAccountingItemRequestValidator>(driverReadRepository, truckReadRepository, trailerReadRepository, fuelReadRepository, fuelStationReadRepository);
             Register<FuelAccountingItemRequestValidator>(driverReadRepository, truckReadRepository, trailerReadRepository, fuelReadRepository, fuelStationReadRepository);
 
-            Register<CreateFuelStationRequestValidator>();
-            Register<FuelStationRequestValidator>();
+            Register<CreateFuelStationRequestValidator>(fuelStationReadRepository);
+            Register<FuelStationRequestValidator>(fuelStationReadRepository);
 
-            Register<CreateSupplierRequestValidator>();
-            Register<SupplierRequestValidator>();
+            Register<CreateSupplierRequestValidator>(supplierReadRepository);
+            Register<SupplierRequestValidator>(supplierReadRepository);
 
-            Register<CreateTrailerRequestValidator>();
-            Register<TrailerRequestValidator>();
+            Register<CreateTrailerRequestValidator>(trailerReadRepository);
+            Register<TrailerRequestValidator>(trailerReadRepository);
 
-            Register<CreateTruckRequestValidator>();
-            Register<TruckRequestValidator>();
+            Register<CreateTruckRequestValidator>(truckReadRepository);
+            Register<TruckRequestValidator>(truckReadRepository);
 
-            Register<CreateUserRequestValidator>();
-            Register<UserRequestValidator>();
+            Register<CreateUserRequestValidator>(userReadRepository);
+            Register<UserRequestValidator>(userReadRepository);
         }
 
         ///<summary>

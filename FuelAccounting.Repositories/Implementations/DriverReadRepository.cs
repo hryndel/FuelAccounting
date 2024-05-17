@@ -39,5 +39,25 @@ namespace FuelAccounting.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .AnyAsync(cancellationToken);
+
+        Task<bool> IDriverReadRepository.AnyByDriversLicenseAsync(string driversLicense, CancellationToken cancellationToken)
+            => reader.Read<Driver>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.DriversLicense == driversLicense, cancellationToken);
+
+        bool IDriverReadRepository.AnyByDriversLicenseAndId(string driversLicense, Guid id)
+            => reader.Read<Driver>()
+                .NotDeletedAt()
+                .Any(x => x.DriversLicense == driversLicense && x.Id != id);
+
+        Task<bool> IDriverReadRepository.AnyByPhoneAsync(string phone, CancellationToken cancellationToken)
+            => reader.Read<Driver>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Phone == phone, cancellationToken);
+
+        bool IDriverReadRepository.AnyByPhoneAndId(string phone, Guid id)
+            => reader.Read<Driver>()
+                .NotDeletedAt()
+                .Any(x => x.Phone == phone && x.Id != id);
     }
 }

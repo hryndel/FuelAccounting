@@ -34,7 +34,7 @@ namespace FuelAccounting.API.Validators.Fuel
                     var supplierExists = await supplierReadRepository.AnyByIdAsync(id, CancellationToken);
                     return supplierExists;
                 })
-                .WithMessage("Такого поставщика не существует!");
+                .WithMessage("Такого поставщика не существует.");
 
             RuleFor(fuel => fuel.Count)
                 .NotNull().WithMessage("Количество не должно быть null.")
