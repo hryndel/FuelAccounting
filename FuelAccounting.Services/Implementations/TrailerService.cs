@@ -67,6 +67,7 @@ namespace FuelAccounting.Services.Implementations
             }
 
             targetTrailer.Name = source.Name;
+            targetTrailer.Number = source.Number;
             targetTrailer.Capacity = source.Capacity;
 
             trailerWriteRepository.Update(targetTrailer);

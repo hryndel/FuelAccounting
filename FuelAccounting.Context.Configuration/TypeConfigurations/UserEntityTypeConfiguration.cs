@@ -32,8 +32,7 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
                 .HasMaxLength(20);
 
             builder.Property(x => x.Password)
-                .IsRequired()
-                .HasMaxLength(20);
+                .IsRequired();
 
             builder.HasIndex(x => x.Login)
                 .IsUnique()

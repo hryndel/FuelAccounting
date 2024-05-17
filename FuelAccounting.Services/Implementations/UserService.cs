@@ -55,7 +55,7 @@ namespace FuelAccounting.Services.Implementations
                 Patronymic = user.Patronymic,
                 Mail = user.Mail,
                 Login = user.Login,
-                Password = user.Password,
+                Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
                 UserType = (UserTypes)user.UserType
             };
 
@@ -77,7 +77,7 @@ namespace FuelAccounting.Services.Implementations
             targetUser.Patronymic = source.Patronymic;
             targetUser.Mail = source.Mail;
             targetUser.Login = source.Login;
-            targetUser.Password = source.Password;
+            targetUser.Password = BCrypt.Net.BCrypt.HashPassword(source.Password);
             targetUser.UserType = (UserTypes)source.UserType;
 
             userWriteRepository.Update(targetUser);
@@ -88,6 +88,7 @@ namespace FuelAccounting.Services.Implementations
         async Task IUserService.DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var targetUser = await userReadRepository.GetByIdAsync(id, cancellationToken);
+            var countAdmins = await userReadRepository.GetByAdminRoleAsync(cancellationToken);
             if (targetUser == null)
             {
                 throw new FuelAccountingEntityNotFoundException<User>(id);
@@ -96,6 +97,11 @@ namespace FuelAccounting.Services.Implementations
             if (targetUser.DeletedAt.HasValue)
             {
                 throw new FuelAccountingInvalidOperationException($"Пользователь с идентификатором {id} уже удален.");
+            }
+
+            if (countAdmins.Count == 1)
+            {
+                throw new FuelAccountingInvalidOperationException($"Нельзя удалить последнего администратора.");
             }
 
             userWriteRepository.Delete(targetUser);
