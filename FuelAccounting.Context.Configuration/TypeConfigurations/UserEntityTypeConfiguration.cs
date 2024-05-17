@@ -34,6 +34,11 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
             builder.Property(x => x.Password)
                 .IsRequired();
 
+            builder.HasIndex(x => x.Mail)
+                .IsUnique()
+                .HasFilter($"{nameof(User.DeletedAt)} is null")
+                .HasDatabaseName($"IX_{nameof(User)}_{nameof(User.Mail)}");
+
             builder.HasIndex(x => x.Login)
                 .IsUnique()
                 .HasFilter($"{nameof(User.DeletedAt)} is null")

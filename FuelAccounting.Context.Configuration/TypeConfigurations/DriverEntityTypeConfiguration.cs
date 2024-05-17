@@ -31,6 +31,11 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
                 .IsRequired()
                 .HasMaxLength(15);
 
+            builder.HasIndex(x => x.Phone)
+                .IsUnique()
+                .HasFilter($"{nameof(Driver.DeletedAt)} is null")
+                .HasDatabaseName($"IX_{nameof(Driver)}_{nameof(Driver.Phone)}");
+
             builder.HasIndex(x => x.DriversLicense)
                 .IsUnique()
                 .HasFilter($"{nameof(Driver.DeletedAt)} is null")
