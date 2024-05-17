@@ -35,10 +35,10 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
                 .IsRequired()
                 .HasMaxLength(20);
 
-            builder.HasIndex(x => x.Mail)
+            builder.HasIndex(x => x.Login)
                 .IsUnique()
                 .HasFilter($"{nameof(User.DeletedAt)} is null")
-                .HasDatabaseName($"IX_{nameof(User)}_{nameof(User.Mail)}");
+                .HasDatabaseName($"IX_{nameof(User)}_{nameof(User.Login)}");
         }
     }
 }
