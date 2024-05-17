@@ -13,15 +13,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Common", "Fu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Context.Contracts", "FuelAccounting.Context.Contracts\FuelAccounting.Context.Contracts.csproj", "{8BEEFA3D-7084-4C46-B5ED-BA8B3EAC126C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.Repositories", "FuelAccounting.Repositories\FuelAccounting.Repositories.csproj", "{1A1273A4-A919-4746-854D-941EC95574E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Repositories", "FuelAccounting.Repositories\FuelAccounting.Repositories.csproj", "{1A1273A4-A919-4746-854D-941EC95574E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.Repositories.Contracts", "FuelAccounting.Repositories.Contracts\FuelAccounting.Repositories.Contracts.csproj", "{48E55537-151A-43BE-90F5-3F919BD8967C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Repositories.Contracts", "FuelAccounting.Repositories.Contracts\FuelAccounting.Repositories.Contracts.csproj", "{48E55537-151A-43BE-90F5-3F919BD8967C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.Shared", "FuelAccounting.Shared\FuelAccounting.Shared.csproj", "{A2D7C033-6860-4AB9-84CC-82F352D38E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Shared", "FuelAccounting.Shared\FuelAccounting.Shared.csproj", "{A2D7C033-6860-4AB9-84CC-82F352D38E9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.Services", "FuelAccounting.Services\FuelAccounting.Services.csproj", "{FCD26F0A-A52A-4C21-A9A8-367F6C1EDDC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Services", "FuelAccounting.Services\FuelAccounting.Services.csproj", "{FCD26F0A-A52A-4C21-A9A8-367F6C1EDDC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.Services.Contracts", "FuelAccounting.Services.Contracts\FuelAccounting.Services.Contracts.csproj", "{6F688DED-CA06-4B99-ABA6-E45517372F68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Services.Contracts", "FuelAccounting.Services.Contracts\FuelAccounting.Services.Contracts.csproj", "{6F688DED-CA06-4B99-ABA6-E45517372F68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.API", "FuelAccounting.API\FuelAccounting.API.csproj", "{B5124DF3-E199-4E6F-9840-32F0FC4AD761}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{6F688DED-CA06-4B99-ABA6-E45517372F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F688DED-CA06-4B99-ABA6-E45517372F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F688DED-CA06-4B99-ABA6-E45517372F68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5124DF3-E199-4E6F-9840-32F0FC4AD761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5124DF3-E199-4E6F-9840-32F0FC4AD761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5124DF3-E199-4E6F-9840-32F0FC4AD761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5124DF3-E199-4E6F-9840-32F0FC4AD761}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
