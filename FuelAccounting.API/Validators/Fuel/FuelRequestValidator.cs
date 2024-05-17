@@ -20,7 +20,7 @@ namespace FuelAccounting.API.Validators.Fuel
 
             RuleFor(fuel => fuel.FuelType)
                 .NotNull().WithMessage("Тип не должен быть null.")
-                .NotEmpty().WithMessage("Тип не должен быть пустым.");
+                .IsInEnum().WithMessage("Тип не существует.");
 
             RuleFor(fuel => fuel.Price)
                 .NotNull().WithMessage("Цена не должна быть null.")

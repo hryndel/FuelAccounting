@@ -48,7 +48,7 @@ namespace FuelAccounting.API.Validators.User
         
             RuleFor(user => user.UserType)
                 .NotNull().WithMessage("Тип не должен быть null.")
-                .NotEmpty().WithMessage("Тип не должен быть пустым.");
+                .IsInEnum().WithMessage("Тип не существует.");
         }
     }
 }
