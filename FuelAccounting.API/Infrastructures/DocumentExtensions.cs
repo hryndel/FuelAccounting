@@ -16,9 +16,35 @@ namespace FuelAccounting.API.Infrastructures
                 c.SwaggerDoc("Trailer", new OpenApiInfo { Title = "Сущность полуприцепа", Version = "v1" });
                 c.SwaggerDoc("Truck", new OpenApiInfo { Title = "Сущность грузовика", Version = "v1" });
                 c.SwaggerDoc("User", new OpenApiInfo { Title = "Сущность пользователя", Version = "v1" });
+                c.SwaggerDoc("Token", new OpenApiInfo { Title = "Токен", Version = "v1" });
 
                 var filePath = Path.Combine(AppContext.BaseDirectory, "FuelAccounting.API.xml");
                 c.IncludeXmlComments(filePath);
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Пожалуйста введите JWT-токен",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{ }
+                    }
+                });
             });
         }
 
@@ -34,6 +60,7 @@ namespace FuelAccounting.API.Infrastructures
                 x.SwaggerEndpoint("Trailer/swagger.json", "Полуприцепы");
                 x.SwaggerEndpoint("Truck/swagger.json", "Грузовики");
                 x.SwaggerEndpoint("User/swagger.json", "Пользователи");
+                x.SwaggerEndpoint("Token/swagger.json", "Токен");
             });
         }
     }

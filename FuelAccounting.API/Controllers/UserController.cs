@@ -3,8 +3,11 @@ using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.User;
+using FuelAccounting.Context.Contracts.Enums;
+using FuelAccounting.Services.Contracts.Exceptions;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
