@@ -35,17 +35,23 @@ namespace FuelAccounting.Repositories.Implementations
                 .OrderBy(x => x.CreatedAt)
                 .ToDictionaryAsync(key => key.Id, cancellationToken);
 
-        Task<bool> IUserReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
-            => reader.Read<User>()
-                .NotDeletedAt()
-                .ById(id)
-                .AnyAsync(cancellationToken);
-
         Task<IReadOnlyCollection<User>> IUserReadRepository.GetByAdminRoleAsync(CancellationToken cancellationToken)
             => reader.Read<User>()
                 .NotDeletedAt()
                 .Where(x => x.UserType == UserTypes.Administrator)
                 .ToReadOnlyCollectionAsync(cancellationToken);
+
+        Task<User?> IUserReadRepository.GetByLoginAsync(string login, CancellationToken cancellationToken)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .Where(x => x.Login == login)
+                .FirstOrDefaultAsync(cancellationToken);
+
+        Task<bool> IUserReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .ById(id)
+                .AnyAsync(cancellationToken);
 
         Task<bool> IUserReadRepository.AnyByMailAsync(string mail, CancellationToken cancellationToken)
             => reader.Read<User>()

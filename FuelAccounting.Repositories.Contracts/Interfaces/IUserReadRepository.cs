@@ -23,15 +23,21 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
         Task<Dictionary<Guid, User>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Проверка есть ли <see cref="User"/> по указанному id
-        /// </summary>
-        Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Проверка есть ли последний админ <see cref="User"/>
+        /// Получить список <see cref="User"/> по роли администратор
         /// </summary>
         /// <returns></returns>
         Task<IReadOnlyCollection<User>> GetByAdminRoleAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить <see cref="User"/> по логину 
+        /// </summary>
+        /// <returns></returns>
+        Task<User?> GetByLoginAsync(string login, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверка есть ли <see cref="User"/> по указанному id
+        /// </summary>
+        Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Проверка есть ли <see cref="User"/> по указанной почте
