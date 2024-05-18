@@ -3,8 +3,10 @@ using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.Fuel;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -35,6 +37,7 @@ namespace FuelAccounting.API.Controllers
         /// Получить список всех видов топлива
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(IEnumerable<FuelResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -43,9 +46,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Получает топливо по идентификатору
+        /// Получить топливо по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelResponse))]
         [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -55,9 +59,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Создаёт новое топливо
+        /// Создать новое топливо
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelResponse))]
         [ApiConflict]
         public async Task<IActionResult> Create(CreateFuelRequest request, CancellationToken cancellationToken)
@@ -69,9 +74,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Редактирует топливо
+        /// Редактировать топливо
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelResponse))]
         [ApiNotFound]
         [ApiConflict]
@@ -84,9 +90,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Удаляет топливо по id
+        /// Удалить топливо по id
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
         [ApiNotFound]
         [ApiNotAcceptable]

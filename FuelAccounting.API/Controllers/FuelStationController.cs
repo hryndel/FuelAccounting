@@ -3,8 +3,10 @@ using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.FuelStation;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -35,6 +37,7 @@ namespace FuelAccounting.API.Controllers
         /// Получить список всех АЗС
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(IEnumerable<FuelStationResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -43,9 +46,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Получает АЗС по идентификатору
+        /// Получить АЗС по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelStationResponse))]
         [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -55,9 +59,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Создаёт новую АЗС
+        /// Создать новую АЗС
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelStationResponse))]
         [ApiConflict]
         public async Task<IActionResult> Create(CreateFuelStationRequest request, CancellationToken cancellationToken)
@@ -69,9 +74,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Редактирует АЗС
+        /// Редактировать АЗС
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelStationResponse))]
         [ApiNotFound]
         [ApiConflict]
@@ -84,9 +90,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Удаляет АЗС по id
+        /// Удалить АЗС по id
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
         [ApiNotFound]
         [ApiNotAcceptable]

@@ -22,20 +22,13 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Авторизировать пользователя
+        /// Авторизироваться
         /// </summary>
         [HttpPost("signIn")]
         public async Task<string> Auth(string login, string password, CancellationToken cancellationToken)
         {
             var token = await tokenService.Authorization(login, password, cancellationToken);
             return token;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> qwe(CancellationToken cancellationToken)
-        {
-            var login = User?.Identity?.Name;
-            return Ok(login);
         }
     }
 }

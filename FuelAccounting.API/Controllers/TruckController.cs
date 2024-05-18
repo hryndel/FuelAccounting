@@ -3,8 +3,10 @@ using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.Truck;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -36,6 +38,7 @@ namespace FuelAccounting.API.Controllers
         /// Получить список всех грузовиков
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(IEnumerable<TruckResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -44,9 +47,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Получает грузовик по идентификатору
+        /// Получить грузовик по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(TruckResponse))]
         [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -60,9 +64,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Создаёт новый грузовик
+        /// Создать новый грузовик
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(TruckResponse))]
         [ApiConflict]
         public async Task<IActionResult> Create(CreateTruckRequest request, CancellationToken cancellationToken)
@@ -74,9 +79,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Редактирует грузовик
+        /// Редактировать грузовик
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(TruckResponse))]
         [ApiNotFound]
         [ApiConflict]
@@ -89,9 +95,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Удаляет грузовик по id
+        /// Удалить грузовик по id
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
         [ApiNotFound]
         [ApiNotAcceptable]
