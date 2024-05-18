@@ -46,7 +46,7 @@ namespace FuelAccounting.Services.Implementations
             return result;
         }
 
-        async Task<FuelModel?> IFuelService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<FuelModel> IFuelService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await fuelReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -55,9 +55,10 @@ namespace FuelAccounting.Services.Implementations
             }
             var supplier = await supplierReadRepository.GetByIdAsync(item.SupplierId, cancellationToken);
             var fuel = mapper.Map<FuelModel>(item);
-            fuel.Supplier = supplier != null ? mapper.Map<SupplierModel>(supplier) : null;
+            fuel.Supplier = mapper.Map<SupplierModel>(supplier);
             return fuel;
         }
+
 
         async Task<FuelModel> IFuelService.AddAsync(FuelRequestModel fuel, CancellationToken cancellationToken)
         {

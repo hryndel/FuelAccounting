@@ -33,7 +33,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<SupplierModel>>(result);
         }
 
-        async Task<SupplierModel?> ISupplierService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<SupplierModel> ISupplierService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await supplierReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -41,7 +41,7 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Supplier>(id);
             }
 
-            return mapper.Map<SupplierModel?>(item);
+            return mapper.Map<SupplierModel>(item);
         }
 
         async Task<SupplierModel> ISupplierService.AddAsync(SupplierRequestModel supplier, CancellationToken cancellationToken)

@@ -34,7 +34,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<UserModel>>(result);
         }
 
-        async Task<UserModel?> IUserService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<UserModel> IUserService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await userReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)

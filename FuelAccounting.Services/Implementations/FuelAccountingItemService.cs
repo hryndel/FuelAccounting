@@ -82,7 +82,7 @@ namespace FuelAccounting.Services.Implementations
             return listFuelDeliveryItemModel;
         }
 
-        async Task<FuelAccountingItemModel?> IFuelAccountingItemService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<FuelAccountingItemModel> IFuelAccountingItemService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await fuelDeliveryItemReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)

@@ -23,6 +23,7 @@ namespace FuelAccounting.Repositories.Implementations
 
         Task<Fuel?> IFuelReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Fuel>()
+                .NotDeletedAt()
                 .ById(id)
                 .NotDeletedAt()
                 .FirstOrDefaultAsync(cancellationToken);

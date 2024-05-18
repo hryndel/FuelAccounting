@@ -33,7 +33,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<DriverModel>>(result);
         }
 
-        async Task<DriverModel?> IDriverService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<DriverModel> IDriverService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await driverReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)

@@ -33,7 +33,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<TrailerModel>>(result);
         }
 
-        async Task<TrailerModel?> ITrailerService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<TrailerModel> ITrailerService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await trailerReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -41,7 +41,7 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Trailer>(id);
             }
 
-            return mapper.Map<TrailerModel?>(item);
+            return mapper.Map<TrailerModel>(item);
         }
 
         async Task<TrailerModel> ITrailerService.AddAsync(TrailerRequestModel trailer, CancellationToken cancellationToken)
