@@ -1,4 +1,6 @@
-﻿using FuelAccounting.API.Infrastructures.Validator;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.Common;
 using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Context;
@@ -22,6 +24,8 @@ namespace FuelAccounting.API.Infrastructures
             service.RegisterModule<ContextModule>();
 
             service.RegisterAutoMapper();
+
+            service.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
     }
 }

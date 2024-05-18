@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.FuelAccountingItem;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -21,15 +24,23 @@ namespace FuelAccounting.API.Controllers
         private readonly IFuelAccountingItemService fuelAccountingItemService;
         private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
+        private readonly IConverter converter;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="FuelAccountingItemController"/>
         /// </summary>
-        public FuelAccountingItemController(IFuelAccountingItemService fuelAccountingItemService, IMapper mapper, IApiValidatorService validatorService)
+        public FuelAccountingItemController(IFuelAccountingItemService fuelAccountingItemService, 
+            IMapper mapper, 
+            IApiValidatorService validatorService,
+            IConverter converter,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.fuelAccountingItemService = fuelAccountingItemService;
             this.mapper = mapper;
             this.validatorService = validatorService;
+            this.converter = converter;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -95,6 +106,39 @@ namespace FuelAccounting.API.Controllers
         {
             await fuelAccountingItemService.DeleteAsync(id, cancellationToken);
             return Ok();
+        }
+
+
+        /// <summary>
+        /// Отправляет сформированный PDF документ по id
+        /// </summary>
+        [HttpGet("document{id:guid}")]
+        [ApiOk]
+        public async Task<IActionResult> GetDocumentById(Guid id, CancellationToken cancellationToken)
+        {
+            var path = webHostEnvironment.WebRootPath + "/Document.html";
+            var document = await fuelAccountingItemService.GetDocumentById(id, path, cancellationToken);
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Top = 10 },
+                DocumentTitle = "Document PDF"
+            };
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = document,
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = null }
+            };
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+            var file = converter.Convert(pdf);
+            return File(file, "application/pdf", "Document.pdf"); ;
         }
     }
 }

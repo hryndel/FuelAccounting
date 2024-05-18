@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
     app.GetSwaggerDocumnetUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

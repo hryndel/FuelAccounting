@@ -33,6 +33,6 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         /// <summary>
         /// Получить сформированный документ <see cref="FuelAccountingItemModel"/>
         /// </summary>
-        Task GetDocumentById(Guid id, CancellationToken cancellationToken);
+        Task<string> GetDocumentById(Guid id, string path, CancellationToken cancellationToken);
     }
 }
