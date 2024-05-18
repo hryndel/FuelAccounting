@@ -33,7 +33,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<TruckModel>>(result);
         }
 
-        async Task<TruckModel?> ITruckService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<TruckModel> ITruckService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await truckReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -41,7 +41,7 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Truck>(id);
             }
 
-            return mapper.Map<TruckModel?>(item);
+            return mapper.Map<TruckModel>(item);
         }
 
         async Task<TruckModel> ITruckService.AddAsync(TruckRequestModel truck, CancellationToken cancellationToken)
@@ -82,11 +82,6 @@ namespace FuelAccounting.Services.Implementations
             if (targetDriver == null)
             {
                 throw new FuelAccountingEntityNotFoundException<Truck>(id);
-            }
-
-            if (targetDriver.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Грузовик с идентификатором {id} уже удален.");
             }
 
             truckWriteRepository.Delete(targetDriver);

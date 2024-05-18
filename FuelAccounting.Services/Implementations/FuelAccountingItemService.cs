@@ -19,6 +19,7 @@ namespace FuelAccounting.Services.Implementations
         private readonly IFuelReadRepository fuelReadRepository;
         private readonly IFuelWriteRepository fuelWriteRepository;
         private readonly IFuelStationReadRepository fuelStationReadRepository;
+        private readonly ISupplierReadRepository supplierReadRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
@@ -30,6 +31,7 @@ namespace FuelAccounting.Services.Implementations
             IFuelReadRepository fuelReadRepository,
             IFuelWriteRepository fuelWriteRepository,
             IFuelStationReadRepository fuelStationReadRepository,
+            ISupplierReadRepository supplierReadRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
@@ -41,6 +43,7 @@ namespace FuelAccounting.Services.Implementations
             this.fuelReadRepository = fuelReadRepository;
             this.fuelWriteRepository = fuelWriteRepository;
             this.fuelStationReadRepository = fuelStationReadRepository;
+            this.supplierReadRepository = supplierReadRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -82,7 +85,7 @@ namespace FuelAccounting.Services.Implementations
             return listFuelDeliveryItemModel;
         }
 
-        async Task<FuelAccountingItemModel?> IFuelAccountingItemService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<FuelAccountingItemModel> IFuelAccountingItemService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await fuelDeliveryItemReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -166,7 +169,6 @@ namespace FuelAccounting.Services.Implementations
             targetFuelDeliveryItem.FuelStationId = fuelStation!.Id;
             targetFuelDeliveryItem.FuelStation = fuelStation;
 
-
             if (targetFuelDeliveryItem.Count > trailer.Capacity)
             {
                 throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем в полуприцепе.");
@@ -196,13 +198,49 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(id);
             }
 
-            if (targetFuelDeliveryItem.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Документ с идентификатором {id} уже удален.");
-            }
-
             fuelDeliveryItemWriteRepository.Delete(targetFuelDeliveryItem);
             await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        async Task<string> IFuelAccountingItemService.GetDocumentById(Guid id, string path, CancellationToken cancellationToken)
+        {
+            var item = await fuelDeliveryItemReadRepository.GetByIdAsync(id, cancellationToken);
+            if (item == null)
+            {
+                throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(id);
+            }
+
+            var driver = await driverReadRepository.GetByIdAsync(item.DriverId, cancellationToken);
+            var truck = await truckReadRepository.GetByIdAsync(item.TruckId, cancellationToken);
+            var trailer = await trailerReadRepository.GetByIdAsync(item.TrailerId, cancellationToken);
+            var fuel = await fuelReadRepository.GetByIdAsync(item.FuelId, cancellationToken);
+            var fuelStation = await fuelStationReadRepository.GetByIdAsync(item.FuelStationId, cancellationToken);
+            var supplier = await supplierReadRepository.GetByIdAsync(fuel!.SupplierId, cancellationToken);
+            var fuelDelivery = mapper.Map<FuelAccountingItemModel>(item);
+
+            fuelDelivery.Driver = mapper.Map<DriverModel>(driver);
+            fuelDelivery.Truck = mapper.Map<TruckModel>(truck);
+            fuelDelivery.Trailer = mapper.Map<TrailerModel>(trailer);
+            fuelDelivery.Fuel = mapper.Map<FuelModel>(fuel);
+            fuelDelivery.FuelStation = mapper.Map<FuelStationModel>(fuelStation);
+            
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string text = await reader.ReadToEndAsync();
+                text = text.Replace("%id%", fuelDelivery.Id.ToString());
+                text = text.Replace("%dateStart%", fuelDelivery.StartDate.ToString());
+                text = text.Replace("%dateEnd%", fuelDelivery.EndDate.ToString());
+                text = text.Replace("%driver%", $"{fuelDelivery.Driver.FirstName} {fuelDelivery.Driver.LastName} {fuelDelivery.Driver.Patronymic}");
+                text = text.Replace("%truck%", $"{fuelDelivery.Truck.Name} | {fuelDelivery.Truck.Number}");
+                text = text.Replace("%trailer%", $"{fuelDelivery.Trailer.Name} | {fuelDelivery.Trailer.Number}");
+                text = text.Replace("%fuelStation%", $"{fuelDelivery.FuelStation.Name} | {fuelDelivery.FuelStation.Address}");
+                text = text.Replace("%fuel%", fuelDelivery.Fuel.FuelType.ToString());
+                text = text.Replace("%count%", fuelDelivery.Count.ToString());
+                text = text.Replace("%supplier%", supplier!.Name.ToString());
+                text = text.Replace("%price%", $"{fuelDelivery.Count * fuelDelivery.Fuel.Price} руб.");
+
+                return text;
+            }
         }
     }
 }

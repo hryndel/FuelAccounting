@@ -33,7 +33,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<FuelStationModel>>(result);
         }
 
-        async Task<FuelStationModel?> IFuelStationService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<FuelStationModel> IFuelStationService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await fuelStationReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -41,7 +41,7 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<FuelStation>(id);
             }
 
-            return mapper.Map<FuelStationModel?>(item);
+            return mapper.Map<FuelStationModel>(item);
         }
 
         async Task<FuelStationModel> IFuelStationService.AddAsync(FuelStationRequestModel fuelStation, CancellationToken cancellationToken)
@@ -82,11 +82,6 @@ namespace FuelAccounting.Services.Implementations
             if (targetFuelStation == null)
             {
                 throw new FuelAccountingEntityNotFoundException<FuelStation>(id);
-            }
-
-            if (targetFuelStation.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"АЗС с идентификатором {id} уже удалена.");
             }
 
             fuelStationWriteRepository.Delete(targetFuelStation);

@@ -13,7 +13,7 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         /// <summary>
         /// Получить <see cref="FuelAccountingItemModel"/> по идентификатору
         /// </summary>
-        Task<FuelAccountingItemModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<FuelAccountingItemModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Добавляет новый <see cref="FuelAccountingItemModel"/> 
@@ -29,5 +29,10 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         /// Удаляет существующий <see cref="FuelAccountingItemModel"/> 
         /// </summary>
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить сформированный документ <see cref="FuelAccountingItemModel"/>
+        /// </summary>
+        Task<string> GetDocumentById(Guid id, string path, CancellationToken cancellationToken);
     }
 }

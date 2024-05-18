@@ -37,7 +37,7 @@ namespace FuelAccounting.Common.Entity.Repositories
         /// </summary>
         public static IQueryable<TEntity> NotDeletedAt<TEntity>(this IQueryable<TEntity> query) where TEntity : class, IEntityAuditDeleted
             => query.Where(x => x.DeletedAt == null);
-
+        
         /// <summary>
         /// Возвращает <see cref="IReadOnlyCollection{TEntity}"/>
         /// </summary>

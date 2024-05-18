@@ -13,7 +13,7 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         /// <summary>
         /// Получить <see cref="FuelModel"/> по идентификатору
         /// </summary>
-        Task<FuelModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<FuelModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Добавляет новое <see cref="FuelModel"/>

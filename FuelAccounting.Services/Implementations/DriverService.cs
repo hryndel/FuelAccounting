@@ -33,7 +33,7 @@ namespace FuelAccounting.Services.Implementations
             return mapper.Map<IEnumerable<DriverModel>>(result);
         }
 
-        async Task<DriverModel?> IDriverService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        async Task<DriverModel> IDriverService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var item = await driverReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -86,11 +86,6 @@ namespace FuelAccounting.Services.Implementations
             if (targetDriver == null)
             {
                 throw new FuelAccountingEntityNotFoundException<Driver>(id);
-            }
-
-            if (targetDriver.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Водитель с идентификатором {id} уже удален.");
             }
 
             driverWriteRepository.Delete(targetDriver);
