@@ -39,5 +39,25 @@ namespace FuelAccounting.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .AnyAsync(cancellationToken);
+
+        Task<bool> ISupplierReadRepository.AnyByInnAsync(int inn, CancellationToken cancellationToken)
+            => reader.Read<Supplier>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Inn == inn, cancellationToken);
+
+        bool ISupplierReadRepository.AnyByInnAndId(int inn, Guid id)
+            => reader.Read<Supplier>()
+                .NotDeletedAt()
+                .Any(x => x.Inn == inn && x.Id != id);
+
+        Task<bool> ISupplierReadRepository.AnyByPhoneAsync(string phone, CancellationToken cancellationToken)
+            => reader.Read<Supplier>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Phone == phone, cancellationToken);
+
+        bool ISupplierReadRepository.AnyByPhoneAndId(string phone, Guid id)
+            => reader.Read<Supplier>()
+                .NotDeletedAt()
+                .Any(x => x.Phone == phone && x.Id != id);
     }
 }

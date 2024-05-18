@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FuelAccounting.API.ModelsRequest.Truck;
+using FuelAccounting.Repositories.Contracts.Interfaces;
 
 namespace FuelAccounting.API.Validators.Truck
 {
@@ -11,7 +12,7 @@ namespace FuelAccounting.API.Validators.Truck
         /// <summary>
         /// Инициализирует <see cref="TruckRequestValidator"/>
         /// </summary>
-        public TruckRequestValidator()
+        public TruckRequestValidator(ITruckReadRepository truckReadRepository)
         {
             RuleFor(truck => truck.Id)
                 .NotNull().WithMessage("Id не должно быть null")
@@ -25,12 +26,22 @@ namespace FuelAccounting.API.Validators.Truck
             RuleFor(truck => truck.Number)
                 .NotNull().WithMessage("Номер не должен быть null.")
                 .NotEmpty().WithMessage("Номер не должен быть пустым.")
-                .Length(2, 10).WithMessage("Номер не должен быть меньше 2 и больше 10 символов.");
+                .Length(2, 10).WithMessage("Номер не должен быть меньше 2 и больше 10 символов.")
+                .Must((truck, _) =>
+                {
+                    var numberExists = truckReadRepository.AnyByNumberAndId(truck.Number, truck.Id);
+                    return !numberExists;
+                }).WithMessage("Такой номер уже существует.");
 
             RuleFor(truck => truck.Vin)
                 .NotNull().WithMessage("Vin не должен быть null.")
                 .NotEmpty().WithMessage("Vin не должен быть пустым.")
-                .Length(2, 20).WithMessage("Vin не должен быть меньше 2 и больше 20 символов.");
+                .Length(2, 20).WithMessage("Vin не должен быть меньше 2 и больше 20 символов.")
+                .Must((truck, _) =>
+                {
+                    var vinExists = truckReadRepository.AnyByVinAndId(truck.Vin, truck.Id);
+                    return !vinExists;
+                }).WithMessage("Такой VIN уже существует.");
         }
     }
 }

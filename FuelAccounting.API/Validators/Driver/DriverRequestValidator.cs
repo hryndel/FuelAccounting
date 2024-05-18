@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FuelAccounting.API.ModelsRequest.Driver;
+using FuelAccounting.Repositories.Contracts.Interfaces;
 
 namespace FuelAccounting.API.Validators.Driver
 {
@@ -11,7 +12,7 @@ namespace FuelAccounting.API.Validators.Driver
         /// <summary>
         /// Инициализирует <see cref="DriverRequestValidator"/>
         /// </summary>
-        public DriverRequestValidator()
+        public DriverRequestValidator(IDriverReadRepository driverReadRepository)
         {
             RuleFor(driver => driver.Id)
                 .NotNull().WithMessage("Id не должно быть null")
@@ -33,12 +34,22 @@ namespace FuelAccounting.API.Validators.Driver
             RuleFor(driver => driver.Phone)
                 .NotNull().WithMessage("Телефон не должен быть null")
                 .NotEmpty().WithMessage("Телефон не должен быть пустым")
-                .Length(2, 20).WithMessage("Телефон не должен быть меньше 2 и больше 20 символов");
+                .Length(2, 20).WithMessage("Телефон не должен быть меньше 2 и больше 20 символов")
+                .Must((driver, _) =>
+                {
+                    var phoneExists = driverReadRepository.AnyByPhoneAndId(driver.Phone, driver.Id);
+                    return !phoneExists;
+                }).WithMessage("Такой номер уже существует.");
 
             RuleFor(driver => driver.DriversLicense)
                 .NotNull().WithMessage("Лицензия не должна быть null")
                 .NotEmpty().WithMessage("Лицензия не должна быть пустой")
-                .Length(2, 15).WithMessage("Лицензия не должна быть меньше 2 и больше 15 символов");
+                .Length(2, 15).WithMessage("Лицензия не должна быть меньше 2 и больше 15 символов")
+                .Must((driver, _) =>
+                {
+                    var driversLicenseExists = driverReadRepository.AnyByDriversLicenseAndId(driver.DriversLicense, driver.Id);
+                    return !driversLicenseExists;
+                }).WithMessage("Такая лицензия уже существует.");
         }
     }
 }

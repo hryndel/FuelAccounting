@@ -31,6 +31,11 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
                 .HasFilter($"{nameof(Supplier.DeletedAt)} is null")
                 .HasDatabaseName($"IX_{nameof(Supplier)}_{nameof(Supplier.Inn)}");
 
+            builder.HasIndex(x => x.Phone)
+                .IsUnique()
+                .HasFilter($"{nameof(Supplier.DeletedAt)} is null")
+                .HasDatabaseName($"IX_{nameof(Supplier)}_{nameof(Supplier.Phone)}");
+
             builder.HasMany(x => x.Fuel)
                 .WithOne(x => x.Supplier)
                 .HasForeignKey(x => x.SupplierId);

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FuelAccounting.API.ModelsRequest.FuelStation;
+using FuelAccounting.Repositories.Contracts.Interfaces;
 
 namespace FuelAccounting.API.Validators.FuelStation
 {
@@ -11,7 +12,7 @@ namespace FuelAccounting.API.Validators.FuelStation
         /// <summary>
         /// Инициализирует <see cref="FuelStationRequestValidator"/>
         /// </summary>
-        public FuelStationRequestValidator()
+        public FuelStationRequestValidator(IFuelStationReadRepository fuelStationReadRepository)
         {
             RuleFor(fuelStation => fuelStation.Id)
                 .NotNull().WithMessage("Id не должно быть null")
@@ -25,7 +26,12 @@ namespace FuelAccounting.API.Validators.FuelStation
             RuleFor(fuelStation => fuelStation.Address)
                 .NotNull().WithMessage("Адрес не должен быть null.")
                 .NotEmpty().WithMessage("Адрес не должен быть пустым.")
-                .Length(2, 100).WithMessage("Адрес не должно быть меньше 2 и больше 100 символов.");
+                .Length(2, 100).WithMessage("Адрес не должно быть меньше 2 и больше 100 символов.")
+                .Must((fuelStation, _) =>
+                {
+                    var addressExists = fuelStationReadRepository.AnyByAddressAndId(fuelStation.Address, fuelStation.Id);
+                    return !addressExists;
+                }).WithMessage("Такой адрес уже существует.");
 
             RuleFor(fuelStation => fuelStation.Description)
                 .MaximumLength(100).WithMessage("Адрес не должен быть больше 100 символов.");

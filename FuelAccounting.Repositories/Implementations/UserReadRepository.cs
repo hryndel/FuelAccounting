@@ -46,5 +46,25 @@ namespace FuelAccounting.Repositories.Implementations
                 .NotDeletedAt()
                 .Where(x => x.UserType == UserTypes.Administrator)
                 .ToReadOnlyCollectionAsync(cancellationToken);
+
+        Task<bool> IUserReadRepository.AnyByMailAsync(string mail, CancellationToken cancellationToken)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Mail == mail, cancellationToken);
+
+        bool IUserReadRepository.AnyByMailAndId(string mail, Guid id)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .Any(x => x.Mail == mail && x.Id != id);
+
+        Task<bool> IUserReadRepository.AnyByLoginAsync(string login, CancellationToken cancellationToken)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Login == login, cancellationToken);
+
+        bool IUserReadRepository.AnyByLoginAndId(string login, Guid id)
+            => reader.Read<User>()
+                .NotDeletedAt()
+                .Any(x => x.Login == login && x.Id != id);
     }
 }

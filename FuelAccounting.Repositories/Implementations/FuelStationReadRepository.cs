@@ -39,5 +39,15 @@ namespace FuelAccounting.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .AnyAsync(cancellationToken);
+
+        Task<bool> IFuelStationReadRepository.AnyByAddressAsync(string address, CancellationToken cancellationToken)
+            => reader.Read<FuelStation>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Address == address, cancellationToken);
+
+        bool IFuelStationReadRepository.AnyByAddressAndId(string address, Guid id)
+            => reader.Read<FuelStation>()
+                .NotDeletedAt()
+                .Any(x => x.Address == address && x.Id != id);
     }
 }

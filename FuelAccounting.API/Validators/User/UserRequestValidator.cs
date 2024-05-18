@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FuelAccounting.API.ModelsRequest.User;
+using FuelAccounting.Repositories.Contracts.Interfaces;
 
 namespace FuelAccounting.API.Validators.User
 {
@@ -11,7 +12,7 @@ namespace FuelAccounting.API.Validators.User
         /// <summary>
         /// Инициализирует <see cref="UserRequestValidator"/>
         /// </summary>
-        public UserRequestValidator()
+        public UserRequestValidator(IUserReadRepository userReadRepository)
         {
             RuleFor(user => user.Id)
                 .NotNull().WithMessage("Id не должно быть null")
@@ -34,12 +35,22 @@ namespace FuelAccounting.API.Validators.User
                 .NotNull().WithMessage("Почта не должна быть null.")
                 .NotEmpty().WithMessage("Почта не должна быть пустой.")
                 .Length(2, 320).WithMessage("Почта не должна быть меньше 2 и больше 50 символов.")
-                .EmailAddress().WithMessage("Почта не действительна.");
+                .EmailAddress().WithMessage("Почта не действительна.")
+                .Must((user, _) =>
+                {
+                    var mailExists = userReadRepository.AnyByMailAndId(user.Mail, user.Id);
+                    return !mailExists;
+                }).WithMessage("Такая почта уже существует.");
 
             RuleFor(user => user.Login)
                 .NotNull().WithMessage("Логин не должен быть null.")
                 .NotEmpty().WithMessage("Логин не должен быть пустой.")
-                .Length(2, 20).WithMessage("Логин не должен быть меньше 2 и больше 20 символов.");
+                .Length(2, 20).WithMessage("Логин не должен быть меньше 2 и больше 20 символов.")
+                .Must((user, _) =>
+                {
+                    var loginExists = userReadRepository.AnyByLoginAndId(user.Login, user.Id);
+                    return !loginExists;
+                }).WithMessage("Такой логин уже существует.");
 
             RuleFor(user => user.Password)
                 .NotNull().WithMessage("Пароль не должен быть null.")

@@ -26,5 +26,25 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
         /// Проверка есть ли <see cref="Supplier"/> по указанному id
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверка есть ли <see cref="Supplier"/> по указанному ИНН
+        /// </summary>
+        Task<bool> AnyByInnAsync(int inn, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверка есть ли <see cref="Supplier"/> по указанному ИНН с Id
+        /// </summary>
+        bool AnyByInnAndId(int inn, Guid id);
+
+        /// <summary>
+        /// Проверка есть ли <see cref="Supplier"/> по указанному номеру
+        /// </summary>
+        Task<bool> AnyByPhoneAsync(string phone, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверка есть ли <see cref="Supplier"/> по указанному номеру с Id
+        /// </summary>
+        bool AnyByPhoneAndId(string phone, Guid id);
     }
 }

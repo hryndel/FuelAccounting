@@ -23,7 +23,12 @@ namespace FuelAccounting.Context.Configuration.TypeConfigurations
             builder.Property(x => x.Vin)
                 .IsRequired()
                 .HasMaxLength(20);
-                
+
+            builder.HasIndex(x => x.Number)
+                .IsUnique()
+                .HasFilter($"{nameof(Trailer.DeletedAt)} is null")
+                .HasDatabaseName($"IX_{nameof(Truck)}_{nameof(Truck.Number)}");
+
             builder.HasIndex(x => x.Vin)
                 .IsUnique()
                 .HasFilter($"{nameof(Truck.DeletedAt)} is null")
