@@ -12,11 +12,13 @@ namespace FuelAccounting.API.Infrastructures
         public DbWriterContext(
             IDbWriter writer,
             IUnitOfWork unitOfWork,
-            IDateTimeProvider dateTimeProvider)
+            IDateTimeProvider dateTimeProvider,
+            IIdentityProvider identityProvider)
         {
             Writer = writer;
             UnitOfWork = unitOfWork;
             DateTimeProvider = dateTimeProvider;
+            IdentityProvider = identityProvider;
         }
 
         /// <inheritdoc cref="IDbWriter"/>
@@ -28,7 +30,7 @@ namespace FuelAccounting.API.Infrastructures
         /// <inheritdoc cref="IDateTimeProvider"/>
         public IDateTimeProvider DateTimeProvider { get; }
 
-        /// <inheritdoc cref="UserName"/>
-        public string UserName { get; } = "FuelAccounting.API";
+        /// <inheritdoc cref="IIdentityProvider"/>
+        public IIdentityProvider IdentityProvider { get; }
     }
 }
