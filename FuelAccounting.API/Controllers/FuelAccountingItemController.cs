@@ -7,7 +7,6 @@ using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.FuelAccountingItem;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
