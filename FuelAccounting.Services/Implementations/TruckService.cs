@@ -84,11 +84,6 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Truck>(id);
             }
 
-            if (targetDriver.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Грузовик с идентификатором {id} уже удален.");
-            }
-
             truckWriteRepository.Delete(targetDriver);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }

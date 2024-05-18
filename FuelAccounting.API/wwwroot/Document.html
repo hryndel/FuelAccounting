@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>НАКЛАДНАЯ</title>
+		<style>
+			table {
+				border: solid 2px black;
+				border-collapse: collapse;
+			}
+			td {
+				width: 200px;
+				height: 60px;
+				border: solid 1px black;
+				text-align: center;
+			}
+			b {
+				font-weight: bold;
+			}
+			h3 {
+				margin-left:120px;
+			}
+			body {
+				margin-left:50px;
+			}
+			p {
+				display: inline;
+			}
+			.underline {
+				text-decoration: underline;
+			}
+		</style>
+    </head>
+	<body>
+		<h3> 
+			ТОВАРНО-ТРАНСПОРТНАЯ НАКЛАДНАЯ №<p class="underline">%id%</p><br/>
+		</h3>
+		<div>
+			<div>Дата отправки: <p class="underline">&nbsp;&nbsp;%dateStart%&nbsp;&nbsp;</p></div><br/>
+			<div>Дата получения: <p class="underline">&nbsp;&nbsp;%dateEnd%&nbsp;&nbsp;</p></div><br/>
+			<div>Водитель: <p class="underline">&nbsp;&nbsp;%driver%&nbsp;&nbsp;</p></div><br/>
+			<div>Грузовик: <p class="underline">&nbsp;&nbsp;%truck%&nbsp;&nbsp;</p></div><br/>
+			<div>Полуприцеп: <p class="underline">&nbsp;&nbsp;%trailer%&nbsp;&nbsp;</p></div><br/>
+			<div>Грузоотправитель: <p class="underline">&nbsp;&nbsp;FuelAccounting&nbsp;&nbsp;</p></div><br/>
+			<div>Грузополучатель: <p class="underline">&nbsp;&nbsp;%fuelStation%&nbsp;&nbsp;</p></div><br/>
+		</div>
+		<table>
+			<tr>
+				<td><b>Наименование</b></td>
+				<td><b>Количество</b></td>
+				<td><b>Ед. измерения</b></td>
+				<td><b>Поставщик</b></td>
+				<td><b>Сумма</b></td>
+			</tr>
+			<tr>
+				<td>%fuel%</td>
+				<td>%count%</td>
+				<td>Литр</td>
+				<td>%supplier%</td>
+				<td>%price%</td>
+			</tr>
+		</table>
+		<br/>
+		<div>
+			Груз сдал ________________ (подпись)<br/><br/>
+			Груз получен в полном объеме, претензий к качеству топлива не имею ________________ (подпись)<br/><br/>
+			________________ (Фамилия)<span style='padding-left:10px;'></span>________________ (Должность)<br/>
+		</div>
+	</body>
+</html>

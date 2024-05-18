@@ -83,11 +83,6 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Trailer>(id);
             }
 
-            if (targetTrailer.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Полуприцеп с идентификатором {id} уже удален.");
-            }
-
             trailerWriteRepository.Delete(targetTrailer);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }

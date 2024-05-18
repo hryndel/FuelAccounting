@@ -84,11 +84,6 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<FuelStation>(id);
             }
 
-            if (targetFuelStation.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"АЗС с идентификатором {id} уже удалена.");
-            }
-
             fuelStationWriteRepository.Delete(targetFuelStation);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }

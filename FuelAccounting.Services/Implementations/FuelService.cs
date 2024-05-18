@@ -59,7 +59,6 @@ namespace FuelAccounting.Services.Implementations
             return fuel;
         }
 
-
         async Task<FuelModel> IFuelService.AddAsync(FuelRequestModel fuel, CancellationToken cancellationToken)
         {
             var item = new Fuel
@@ -103,11 +102,6 @@ namespace FuelAccounting.Services.Implementations
             if (targetFuel == null)
             {
                 throw new FuelAccountingEntityNotFoundException<Fuel>(id);
-            }
-
-            if (targetFuel.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Топливо с идентификатором {id} уже удалено.");
             }
 
             fuelWriteRepository.Delete(targetFuel);

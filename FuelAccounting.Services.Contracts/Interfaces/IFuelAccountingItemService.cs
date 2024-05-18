@@ -29,5 +29,10 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         /// Удаляет существующий <see cref="FuelAccountingItemModel"/> 
         /// </summary>
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить сформированный документ <see cref="FuelAccountingItemModel"/>
+        /// </summary>
+        Task GetDocumentById(Guid id, CancellationToken cancellationToken);
     }
 }

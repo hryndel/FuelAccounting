@@ -166,7 +166,6 @@ namespace FuelAccounting.Services.Implementations
             targetFuelDeliveryItem.FuelStationId = fuelStation!.Id;
             targetFuelDeliveryItem.FuelStation = fuelStation;
 
-
             if (targetFuelDeliveryItem.Count > trailer.Capacity)
             {
                 throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем в полуприцепе.");
@@ -196,13 +195,17 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(id);
             }
 
-            if (targetFuelDeliveryItem.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Документ с идентификатором {id} уже удален.");
-            }
-
             fuelDeliveryItemWriteRepository.Delete(targetFuelDeliveryItem);
             await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        async Task IFuelAccountingItemService.GetDocumentById(Guid id, CancellationToken cancellationToken)
+        {
+            var targetFuelDeliveryItem = await fuelDeliveryItemReadRepository.GetByIdAsync(id, cancellationToken);
+            if (targetFuelDeliveryItem == null)
+            {
+                throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(id);
+            }
         }
     }
 }

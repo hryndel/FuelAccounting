@@ -1,6 +1,4 @@
-﻿using System.Security.Principal;
-
-namespace FuelAccounting.Common.Entity.InterfacesDB
+﻿namespace FuelAccounting.Common.Entity.InterfacesDB
 {
     /// <summary>
     /// Определяет контекст репозитория записи сущностей

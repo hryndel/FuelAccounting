@@ -94,11 +94,6 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<User>(id);
             }
 
-            if (targetUser.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Пользователь с идентификатором {id} уже удален.");
-            }
-
             if (countAdmins.Count == 1)
             {
                 throw new FuelAccountingInvalidOperationException($"Нельзя удалить последнего администратора.");

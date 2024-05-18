@@ -88,11 +88,6 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Driver>(id);
             }
 
-            if (targetDriver.DeletedAt.HasValue)
-            {
-                throw new FuelAccountingInvalidOperationException($"Водитель с идентификатором {id} уже удален.");
-            }
-
             driverWriteRepository.Delete(targetDriver);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
