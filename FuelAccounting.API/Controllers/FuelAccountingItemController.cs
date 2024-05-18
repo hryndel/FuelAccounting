@@ -124,7 +124,7 @@ namespace FuelAccounting.API.Controllers
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "Document PDF"
+                DocumentTitle = "Накладная"
             };
             var objectSettings = new ObjectSettings
             {
