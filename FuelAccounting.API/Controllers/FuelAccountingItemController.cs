@@ -120,7 +120,7 @@ namespace FuelAccounting.API.Controllers
         {
             var path = webHostEnvironment.WebRootPath + "/Document.html";
             var document = await fuelAccountingItemService.GetDocumentById(id, path, cancellationToken);
-            return File(document, "application/pdf", "Document.pdf"); ;
+            return File(document, "application/pdf", "Document.pdf");
         }
     }
 }
