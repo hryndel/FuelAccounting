@@ -16,10 +16,13 @@ namespace FuelAccounting.API.Infrastructures
             claims = httpContextAccessor?.HttpContext?.User?.Claims ?? Array.Empty<Claim>();
         }
 
+        /// <inheritdoc cref="IIdentityProvider.Name"/>
         public string Name => claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value ?? "Anonymous";
 
+        /// <inheritdoc cref="IIdentityProvider.Id"/>
         public Guid Id => Guid.TryParse(claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value, out var value) ? value : Guid.Empty;
 
+        /// <inheritdoc cref="IIdentityProvider.Claims"/>
         public IEnumerable<KeyValuePair<string, string>> Claims => claims.Select(x => new KeyValuePair<string, string>(x.Type, x.Value));
     }
 }
