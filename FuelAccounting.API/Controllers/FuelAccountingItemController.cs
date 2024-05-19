@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DinkToPdf;
 using DinkToPdf.Contracts;
 using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
@@ -25,7 +24,6 @@ namespace FuelAccounting.API.Controllers
         private readonly IFuelAccountingItemService fuelAccountingItemService;
         private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
-        private readonly IConverter converter;
         private readonly IWebHostEnvironment webHostEnvironment;
 
         /// <summary>
@@ -34,13 +32,11 @@ namespace FuelAccounting.API.Controllers
         public FuelAccountingItemController(IFuelAccountingItemService fuelAccountingItemService, 
             IMapper mapper, 
             IApiValidatorService validatorService,
-            IConverter converter,
             IWebHostEnvironment webHostEnvironment)
         {
             this.fuelAccountingItemService = fuelAccountingItemService;
             this.mapper = mapper;
             this.validatorService = validatorService;
-            this.converter = converter;
             this.webHostEnvironment = webHostEnvironment;
         }
 
@@ -124,27 +120,7 @@ namespace FuelAccounting.API.Controllers
         {
             var path = webHostEnvironment.WebRootPath + "/Document.html";
             var document = await fuelAccountingItemService.GetDocumentById(id, path, cancellationToken);
-            var globalSettings = new GlobalSettings
-            {
-                ColorMode = ColorMode.Color,
-                Orientation = Orientation.Portrait,
-                PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "Накладная"
-            };
-            var objectSettings = new ObjectSettings
-            {
-                PagesCount = true,
-                HtmlContent = document,
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = null }
-            };
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings = globalSettings,
-                Objects = { objectSettings }
-            };
-            var file = converter.Convert(pdf);
-            return File(file, "application/pdf", "Document.pdf"); ;
+            return File(document, "application/pdf", "Document.pdf"); ;
         }
     }
 }
