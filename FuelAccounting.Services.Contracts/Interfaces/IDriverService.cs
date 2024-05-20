@@ -11,6 +11,11 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         Task<IEnumerable<DriverModel>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получить список всех свободных <see cref="DriverModel"/>
+        /// </summary>
+        Task<IEnumerable<DriverModel>> GetFreeAllAsync(CancellationToken cancellationToken);
+
+        /// <summary>
         /// Получить <see cref="DriverModel"/> по идентификатору
         /// </summary>
         Task<DriverModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);

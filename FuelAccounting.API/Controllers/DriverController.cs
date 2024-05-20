@@ -46,6 +46,18 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
+        /// Получить список свободных водителей
+        /// </summary>
+        [HttpGet("free")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
+        [ApiOk(typeof(IEnumerable<DriverResponse>))]
+        public async Task<IActionResult> GetAllFree(CancellationToken cancellationToken)
+        {
+            var result = await driverService.GetFreeAllAsync(cancellationToken);
+            return Ok(mapper.Map<IEnumerable<DriverResponse>>(result));
+        }
+
+        /// <summary>
         /// Получить водителя по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]

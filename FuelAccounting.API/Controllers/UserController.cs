@@ -63,7 +63,7 @@ namespace FuelAccounting.API.Controllers
         /// Создать нового пользователя
         /// </summary>
         [HttpPost]
-        [Authorize(Roles = $"{nameof(UserTypes.Administrator)}")]
+        //[Authorize(Roles = $"{nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(UserResponse))]
         [ApiConflict]
         public async Task<IActionResult> Create(CreateUserRequest request, CancellationToken cancellationToken)

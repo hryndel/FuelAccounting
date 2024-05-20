@@ -50,6 +50,7 @@ namespace FuelAccounting.Services.Implementations
             {
                 Id = Guid.NewGuid(),
                 Name = trailer.Name,
+                Number = trailer.Number,
                 Capacity = trailer.Capacity
             };
 
