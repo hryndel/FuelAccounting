@@ -26,7 +26,7 @@
         public string Trailer { get; set; } = string.Empty;
 
         /// <summary>
-        /// Название топлива
+        /// Название топлива + поставщик
         /// </summary>
         public string Fuel { get; set; } = string.Empty;
 
