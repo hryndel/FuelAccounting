@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FuelAccounting.Common;
 using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
@@ -13,16 +14,22 @@ namespace FuelAccounting.Services.Implementations
     {
         private readonly IDriverReadRepository driverReadRepository;
         private readonly IDriverWriteRepository driverWriteRepository;
+        private readonly IFuelAccountingItemReadRepository fuelAccountingItemReadRepository;
+        private readonly IDateTimeProvider dateTimeProvider;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public DriverService(IDriverReadRepository driverReadRepository, 
-            IDriverWriteRepository driverWriteRepository, 
+            IDriverWriteRepository driverWriteRepository,
+            IFuelAccountingItemReadRepository fuelAccountingItemReadRepository,
+            IDateTimeProvider dateTimeProvider,
             IUnitOfWork unitOfWork, 
             IMapper mapper)
         {
             this.driverReadRepository = driverReadRepository;
             this.driverWriteRepository = driverWriteRepository;
+            this.fuelAccountingItemReadRepository = fuelAccountingItemReadRepository;
+            this.dateTimeProvider = dateTimeProvider;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -31,6 +38,21 @@ namespace FuelAccounting.Services.Implementations
         {
             var result = await driverReadRepository.GetAllAsync(cancellationToken);
             return mapper.Map<IEnumerable<DriverModel>>(result);
+        }
+
+        async Task<IEnumerable<DriverModel>> IDriverService.GetFreeAllAsync(CancellationToken cancellationToken)
+        {
+            var result = await driverReadRepository.GetAllAsync(cancellationToken);
+            var listDriverModel = new List<DriverModel>();
+            foreach (var item in result)
+            {
+                var document = await fuelAccountingItemReadRepository.GetByDriverIdAsync(item.Id, cancellationToken);
+                if (document != null || dateTimeProvider.UtcNow < document?.EndDate) continue;
+                var driver = mapper.Map<DriverModel>(item);
+                listDriverModel.Add(driver);
+            }
+            
+            return listDriverModel;
         }
 
         async Task<DriverModel> IDriverService.GetByIdAsync(Guid id, CancellationToken cancellationToken)

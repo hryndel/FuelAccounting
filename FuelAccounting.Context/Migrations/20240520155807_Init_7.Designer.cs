@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuelAccounting.Context.Migrations
 {
     [DbContext(typeof(FuelAccountingContext))]
-    [Migration("20240517092145_Init_6")]
-    partial class Init_6
+    [Migration("20240520155807_Init_7")]
+    partial class Init_7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,6 +78,11 @@ namespace FuelAccounting.Context.Migrations
                     b.HasIndex("DriversLicense")
                         .IsUnique()
                         .HasDatabaseName("IX_Driver_DriversLicense")
+                        .HasFilter("DeletedAt is null");
+
+                    b.HasIndex("Phone")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Driver_Phone")
                         .HasFilter("DeletedAt is null");
 
                     b.ToTable("Drivers", (string)null);
@@ -269,8 +274,10 @@ namespace FuelAccounting.Context.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Inn")
-                        .HasColumnType("int");
+                    b.Property<string>("Inn")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -295,6 +302,11 @@ namespace FuelAccounting.Context.Migrations
                     b.HasIndex("Inn")
                         .IsUnique()
                         .HasDatabaseName("IX_Supplier_Inn")
+                        .HasFilter("DeletedAt is null");
+
+                    b.HasIndex("Phone")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Supplier_Phone")
                         .HasFilter("DeletedAt is null");
 
                     b.ToTable("Suppliers", (string)null);
@@ -390,6 +402,11 @@ namespace FuelAccounting.Context.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Truck_Number")
+                        .HasFilter("DeletedAt is null");
+
                     b.HasIndex("Vin")
                         .IsUnique()
                         .HasDatabaseName("IX_Truck_Vin")
@@ -459,6 +476,11 @@ namespace FuelAccounting.Context.Migrations
                     b.HasIndex("Login")
                         .IsUnique()
                         .HasDatabaseName("IX_User_Login")
+                        .HasFilter("DeletedAt is null");
+
+                    b.HasIndex("Mail")
+                        .IsUnique()
+                        .HasDatabaseName("IX_User_Mail")
                         .HasFilter("DeletedAt is null");
 
                     b.ToTable("Users", (string)null);

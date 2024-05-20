@@ -10,6 +10,9 @@ namespace FuelAccounting.API.Infrastructures
     /// </summary>
     public class FuelAccountingExceptionFiltr : IExceptionFilter
     {
+        /// <summary>
+        /// Инициализирует <see cref="FuelAccountingExceptionFiltr"/>
+        /// </summary>
         public void OnException(ExceptionContext context)
         {
             var exception = context.Exception as FuelAccountingException;

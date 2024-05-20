@@ -26,6 +26,7 @@ namespace FuelAccounting.API.Validators.Supplier
             RuleFor(supplier => supplier.Inn)
                 .NotNull().WithMessage("ИНН не должно быть null.")
                 .NotEmpty().WithMessage("ИНН не должно быть пустым.")
+                .Length(12, 20).WithMessage("ИНН не должно быть меньше 12 и больше 20 символов.")
                 .Must((supplier, _) =>
                 {
                     var innExists = supplierReadRepository.AnyByInnAndId(supplier.Inn, supplier.Id);

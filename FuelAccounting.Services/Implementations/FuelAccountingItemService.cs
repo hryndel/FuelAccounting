@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
@@ -6,6 +8,7 @@ using FuelAccounting.Services.Contracts.Exceptions;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.Models;
 using FuelAccounting.Services.Contracts.RequestModels;
+using System.Drawing;
 
 namespace FuelAccounting.Services.Implementations
 {
@@ -20,6 +23,7 @@ namespace FuelAccounting.Services.Implementations
         private readonly IFuelWriteRepository fuelWriteRepository;
         private readonly IFuelStationReadRepository fuelStationReadRepository;
         private readonly ISupplierReadRepository supplierReadRepository;
+        private readonly IConverter converter;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
@@ -32,6 +36,7 @@ namespace FuelAccounting.Services.Implementations
             IFuelWriteRepository fuelWriteRepository,
             IFuelStationReadRepository fuelStationReadRepository,
             ISupplierReadRepository supplierReadRepository,
+            IConverter converter,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
@@ -44,6 +49,7 @@ namespace FuelAccounting.Services.Implementations
             this.fuelWriteRepository = fuelWriteRepository;
             this.fuelStationReadRepository = fuelStationReadRepository;
             this.supplierReadRepository = supplierReadRepository;
+            this.converter = converter;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -202,7 +208,7 @@ namespace FuelAccounting.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        async Task<string> IFuelAccountingItemService.GetDocumentById(Guid id, string path, CancellationToken cancellationToken)
+        async Task<byte[]> IFuelAccountingItemService.GetDocumentById(Guid id, string path, CancellationToken cancellationToken)
         {
             var item = await fuelDeliveryItemReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -239,7 +245,26 @@ namespace FuelAccounting.Services.Implementations
                 text = text.Replace("%supplier%", supplier!.Name.ToString());
                 text = text.Replace("%price%", $"{fuelDelivery.Count * fuelDelivery.Fuel.Price} руб.");
 
-                return text;
+                var globalSettings = new GlobalSettings
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 10 },
+                    DocumentTitle = "Накладная"
+                };
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                    HtmlContent = text,
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = null }
+                };
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+                return converter.Convert(pdf);
             }
         }
     }

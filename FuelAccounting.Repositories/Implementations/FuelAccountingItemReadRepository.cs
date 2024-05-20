@@ -21,6 +21,13 @@ namespace FuelAccounting.Repositories.Implementations
                 .OrderBy(x => x.CreatedAt)
                 .ToReadOnlyCollectionAsync(cancellationToken);
 
+        Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByDriverIdAsync(Guid driverId, CancellationToken cancellationToken)
+            => reader.Read<FuelAccountingItem>()
+                .NotDeletedAt()
+                .Where(x => x.DriverId == driverId)
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+
         Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<FuelAccountingItem>()
                 .ById(id)

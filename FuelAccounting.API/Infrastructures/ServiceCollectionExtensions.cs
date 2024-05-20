@@ -14,6 +14,8 @@ namespace FuelAccounting.API.Infrastructures
     {
         public static void AddDependencies(this IServiceCollection service)
         {
+            service.AddScoped<IIdentityProvider, ApiIdentityProvider>();
+
             service.AddTransient<IDateTimeProvider, DateTimeProvider>();
             service.AddTransient<IDbWriterContext, DbWriterContext>();
             service.AddTransient<IApiValidatorService, ApiValidatorService>();

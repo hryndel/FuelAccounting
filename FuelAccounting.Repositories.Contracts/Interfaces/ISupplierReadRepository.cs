@@ -30,12 +30,12 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
         /// <summary>
         /// Проверка есть ли <see cref="Supplier"/> по указанному ИНН
         /// </summary>
-        Task<bool> AnyByInnAsync(int inn, CancellationToken cancellationToken);
+        Task<bool> AnyByInnAsync(string inn, CancellationToken cancellationToken);
 
         /// <summary>
         /// Проверка есть ли <see cref="Supplier"/> по указанному ИНН с Id
         /// </summary>
-        bool AnyByInnAndId(int inn, Guid id);
+        bool AnyByInnAndId(string inn, Guid id);
 
         /// <summary>
         /// Проверка есть ли <see cref="Supplier"/> по указанному номеру

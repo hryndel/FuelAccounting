@@ -3,8 +3,10 @@ using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.Driver;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -35,6 +37,7 @@ namespace FuelAccounting.API.Controllers
         /// Получить список всех водителей
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(IEnumerable<DriverResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -43,9 +46,22 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Получает водителя по идентификатору
+        /// Получить список свободных водителей
+        /// </summary>
+        [HttpGet("free")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
+        [ApiOk(typeof(IEnumerable<DriverResponse>))]
+        public async Task<IActionResult> GetAllFree(CancellationToken cancellationToken)
+        {
+            var result = await driverService.GetFreeAllAsync(cancellationToken);
+            return Ok(mapper.Map<IEnumerable<DriverResponse>>(result));
+        }
+
+        /// <summary>
+        /// Получить водителя по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(DriverResponse))]
         [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -55,9 +71,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Создаёт нового водителя
+        /// Создать нового водителя
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(DriverResponse))]
         [ApiConflict]
         public async Task<IActionResult> Create(CreateDriverRequest request, CancellationToken cancellationToken)
@@ -69,9 +86,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Редактирует имеющегося водителя
+        /// Редактировать водителя
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(DriverResponse))]
         [ApiNotFound]
         [ApiConflict]
@@ -84,10 +102,11 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Удаляет имеющегося водителя
+        /// Удалить водителя по id
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ApiOk]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiNotFound]
         [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
-﻿using FuelAccounting.Services.Contracts.Models;
+﻿using DinkToPdf;
+using FuelAccounting.Services.Contracts.Models;
 using FuelAccounting.Services.Contracts.RequestModels;
 
 namespace FuelAccounting.Services.Contracts.Interfaces
@@ -33,6 +34,6 @@ namespace FuelAccounting.Services.Contracts.Interfaces
         /// <summary>
         /// Получить сформированный документ <see cref="FuelAccountingItemModel"/>
         /// </summary>
-        Task<string> GetDocumentById(Guid id, string path, CancellationToken cancellationToken);
+        Task<byte[]> GetDocumentById(Guid id, string path, CancellationToken cancellationToken);
     }
 }

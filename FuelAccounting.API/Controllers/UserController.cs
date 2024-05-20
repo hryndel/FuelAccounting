@@ -3,8 +3,10 @@ using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
 using FuelAccounting.API.ModelsRequest.User;
+using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -36,6 +38,7 @@ namespace FuelAccounting.API.Controllers
         /// Получить список всех пользователей
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(IEnumerable<UserResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -44,9 +47,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Получает пользователя по идентификатору
+        /// Получить пользователя по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(UserResponse))]
         [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -56,9 +60,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Создаёт нового пользователя
+        /// Создать нового пользователя
         /// </summary>
         [HttpPost]
+        //[Authorize(Roles = $"{nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(UserResponse))]
         [ApiConflict]
         public async Task<IActionResult> Create(CreateUserRequest request, CancellationToken cancellationToken)
@@ -70,9 +75,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Редактирует пользователя
+        /// Редактировать пользователя
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = $"{nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(UserResponse))]
         [ApiNotFound]
         [ApiConflict]
@@ -85,9 +91,10 @@ namespace FuelAccounting.API.Controllers
         }
 
         /// <summary>
-        /// Удаляет пользователя по id
+        /// Удалить пользователя по id
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Administrator)}")]
         [ApiOk]
         [ApiNotFound]
         [ApiNotAcceptable]

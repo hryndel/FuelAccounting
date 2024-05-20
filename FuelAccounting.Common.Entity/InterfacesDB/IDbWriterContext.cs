@@ -19,6 +19,6 @@
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        string UserName { get; }
+        IIdentityProvider IdentityProvider { get; }
     }
 }
