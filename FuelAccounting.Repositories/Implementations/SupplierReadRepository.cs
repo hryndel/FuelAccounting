@@ -40,12 +40,12 @@ namespace FuelAccounting.Repositories.Implementations
                 .ById(id)
                 .AnyAsync(cancellationToken);
 
-        Task<bool> ISupplierReadRepository.AnyByInnAsync(int inn, CancellationToken cancellationToken)
+        Task<bool> ISupplierReadRepository.AnyByInnAsync(string inn, CancellationToken cancellationToken)
             => reader.Read<Supplier>()
                 .NotDeletedAt()
                 .AnyAsync(x => x.Inn == inn, cancellationToken);
 
-        bool ISupplierReadRepository.AnyByInnAndId(int inn, Guid id)
+        bool ISupplierReadRepository.AnyByInnAndId(string inn, Guid id)
             => reader.Read<Supplier>()
                 .NotDeletedAt()
                 .Any(x => x.Inn == inn && x.Id != id);

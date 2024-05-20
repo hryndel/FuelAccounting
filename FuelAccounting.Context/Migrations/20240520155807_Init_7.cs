@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FuelAccounting.Context.Migrations
 {
-    public partial class Init_6 : Migration
+    public partial class Init_7 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,7 +55,7 @@ namespace FuelAccounting.Context.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Inn = table.Column<int>(type: "int", nullable: false),
+                    Inn = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -218,6 +218,13 @@ namespace FuelAccounting.Context.Migrations
                 filter: "DeletedAt is null");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Driver_Phone",
+                table: "Drivers",
+                column: "Phone",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FuelAccountingItem_StartDate_EndDate",
                 table: "FuelAccountingItems",
                 columns: new[] { "StartDate", "EndDate" },
@@ -274,8 +281,22 @@ namespace FuelAccounting.Context.Migrations
                 filter: "DeletedAt is null");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Supplier_Phone",
+                table: "Suppliers",
+                column: "Phone",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Trailer_Number",
                 table: "Trailers",
+                column: "Number",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Truck_Number",
+                table: "Trucks",
                 column: "Number",
                 unique: true,
                 filter: "DeletedAt is null");
@@ -291,6 +312,13 @@ namespace FuelAccounting.Context.Migrations
                 name: "IX_User_Login",
                 table: "Users",
                 column: "Login",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Mail",
+                table: "Users",
+                column: "Mail",
                 unique: true,
                 filter: "DeletedAt is null");
         }

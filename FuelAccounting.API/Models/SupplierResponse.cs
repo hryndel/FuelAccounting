@@ -18,7 +18,7 @@
         /// <summary>
         /// ИНН
         /// </summary>
-        public int Inn { get; set; }
+        public string Inn { get; set; } = string.Empty;
 
         /// <summary>
         /// Номер телефона
