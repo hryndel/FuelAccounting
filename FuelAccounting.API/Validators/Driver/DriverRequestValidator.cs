@@ -29,7 +29,6 @@ namespace FuelAccounting.API.Validators.Driver
                 .Length(2, 50).WithMessage("Фамилия не должна быть меньше 2 и больше 50 символов.");
 
             RuleFor(driver => driver.Patronymic)
-                .NotEmpty().WithMessage("Отчество не должно быть пустым.")
                 .MaximumLength(50).WithMessage("Отчество не должно быть больше 50 символов.");
 
             RuleFor(driver => driver.Phone)

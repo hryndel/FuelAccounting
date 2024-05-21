@@ -44,7 +44,6 @@ namespace FuelAccounting.API.Validators.Supplier
                 }).WithMessage("Такой номер уже существует.");
 
             RuleFor(supplier => supplier.Description)
-                .NotEmpty().WithMessage("Описание не должно быть пустым.")
                 .MaximumLength(100).WithMessage("Описание не должно быть больше 100 символов.");
         }
     }
