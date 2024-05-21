@@ -34,7 +34,8 @@ namespace FuelAccounting.API.Validators.FuelStation
                 }).WithMessage("Такой адрес уже существует.");
 
             RuleFor(fuelStation => fuelStation.Description)
-                .MaximumLength(100).WithMessage("Адрес не должен быть больше 100 символов.");
+                .NotEmpty().WithMessage("Описание не должно быть пустым.")
+                .MaximumLength(100).WithMessage("Описание не должно быть больше 100 символов.");
         }
     }
 }

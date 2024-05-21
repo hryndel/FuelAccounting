@@ -25,6 +25,7 @@ namespace FuelAccounting.API.Validators.User
                 .Length(2, 50).WithMessage("Фамилия не должна быть меньше 2 и больше 50 символов.");
 
             RuleFor(user => user.Patronymic)
+                .NotEmpty().WithMessage("Отчество не должно быть пустым.")
                 .MaximumLength(50).WithMessage("Отчество не должно быть больше 50 символов.");
 
             RuleFor(user => user.Mail)
