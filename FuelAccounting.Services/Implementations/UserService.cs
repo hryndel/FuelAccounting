@@ -67,15 +67,18 @@ namespace FuelAccounting.Services.Implementations
         async Task<UserModel> IUserService.EditAsync(UserRequestModel source, CancellationToken cancellationToken)
         {
             var targetUser = await userReadRepository.GetByIdAsync(source.Id, cancellationToken);
-            var countAdmins = await userReadRepository.GetByAdminRoleAsync(cancellationToken);
             if (targetUser == null)
             {
                 throw new FuelAccountingEntityNotFoundException<User>(source.Id);
             }
 
-            if (countAdmins.Count == 1 && targetUser.UserType == UserTypes.Administrator && (UserTypes)source.UserType != UserTypes.Administrator)
+            if (targetUser.UserType == UserTypes.Administrator)
             {
-                throw new FuelAccountingInvalidOperationException($"Нельзя изменить роль последнему администратору.");
+                var countAdmins = await userReadRepository.GetByAdminRoleAsync(cancellationToken);
+                if (countAdmins.Count == 1)
+                {
+                    throw new FuelAccountingInvalidOperationException($"Нельзя изменить роль последнему администратору.");
+                }
             }
 
             targetUser.FirstName = source.FirstName;
