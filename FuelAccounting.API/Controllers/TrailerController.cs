@@ -6,6 +6,7 @@ using FuelAccounting.API.ModelsRequest.Trailer;
 using FuelAccounting.Context.Contracts.Enums;
 using FuelAccounting.Services.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.RequestModels;
+using FuelAccounting.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,18 @@ namespace FuelAccounting.API.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await trailerService.GetAllAsync(cancellationToken);
+            return Ok(mapper.Map<IEnumerable<TrailerResponse>>(result));
+        }
+
+        /// <summary>
+        /// Получить список свободных полуприцепов
+        /// </summary>
+        [HttpGet("free")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
+        [ApiOk(typeof(IEnumerable<TrailerResponse>))]
+        public async Task<IActionResult> GetFreeAll(CancellationToken cancellationToken)
+        {
+            var result = await trailerService.GetFreeAllAsync(cancellationToken);
             return Ok(mapper.Map<IEnumerable<TrailerResponse>>(result));
         }
 

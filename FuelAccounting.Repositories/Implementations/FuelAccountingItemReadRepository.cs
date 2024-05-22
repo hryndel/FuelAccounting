@@ -21,6 +21,11 @@ namespace FuelAccounting.Repositories.Implementations
                 .OrderBy(x => x.CreatedAt)
                 .ToReadOnlyCollectionAsync(cancellationToken);
 
+        Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => reader.Read<FuelAccountingItem>()
+                .ById(id)
+                .NotDeletedAt()
+                .FirstOrDefaultAsync(cancellationToken);
         Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByDriverIdAsync(Guid driverId, CancellationToken cancellationToken)
             => reader.Read<FuelAccountingItem>()
                 .NotDeletedAt()
@@ -28,10 +33,18 @@ namespace FuelAccounting.Repositories.Implementations
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync(cancellationToken);
 
-        Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByTrailerIdAsync(Guid trailerId, CancellationToken cancellationToken)
             => reader.Read<FuelAccountingItem>()
-                .ById(id)
                 .NotDeletedAt()
+                .Where(x => x.TrailerId == trailerId)
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+
+        Task<FuelAccountingItem?> IFuelAccountingItemReadRepository.GetByTruckIdAsync(Guid truckId, CancellationToken cancellationToken)
+            => reader.Read<FuelAccountingItem>()
+                .NotDeletedAt()
+                .Where(x => x.TruckId == truckId)
+                .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync(cancellationToken);
     }
 }

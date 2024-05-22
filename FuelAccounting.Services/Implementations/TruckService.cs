@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FuelAccounting.Common;
 using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
@@ -13,18 +14,24 @@ namespace FuelAccounting.Services.Implementations
     {
         private readonly ITruckReadRepository truckReadRepository;
         private readonly ITruckWriteRepository truckWriteRepository;
+        private readonly IFuelAccountingItemReadRepository fuelAccountingItemReadRepository;
+        private readonly IDateTimeProvider dateTimeProvider;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public TruckService(ITruckReadRepository truckReadRepository,
             ITruckWriteRepository truckWriteRepository,
+            IFuelAccountingItemReadRepository fuelAccountingItemReadRepository,
+            IDateTimeProvider dateProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.truckReadRepository = truckReadRepository;
-            this.mapper = mapper;
             this.truckWriteRepository = truckWriteRepository;
+            this.fuelAccountingItemReadRepository = fuelAccountingItemReadRepository;
+            this.dateTimeProvider = dateProvider;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         async Task<IEnumerable<TruckModel>> ITruckService.GetAllAsync(CancellationToken cancellationToken)
@@ -42,6 +49,21 @@ namespace FuelAccounting.Services.Implementations
             }
 
             return mapper.Map<TruckModel>(item);
+        }
+
+        async Task<IEnumerable<TruckModel>> ITruckService.GetFreeAllAsync(CancellationToken cancellationToken)
+        {
+            var result = await truckReadRepository.GetAllAsync(cancellationToken);
+            var listTruckModel = new List<TruckModel>();
+            foreach (var item in result)
+            {
+                var document = await fuelAccountingItemReadRepository.GetByTruckIdAsync(item.Id, cancellationToken);
+                if (document != null || dateTimeProvider.UtcNow < document?.EndDate) continue;
+                var truck = mapper.Map<TruckModel>(item);
+                listTruckModel.Add(truck);
+            }
+
+            return listTruckModel;
         }
 
         async Task<TruckModel> ITruckService.AddAsync(TruckRequestModel truck, CancellationToken cancellationToken)

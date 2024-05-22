@@ -14,20 +14,20 @@ namespace FuelAccounting.Services.Implementations
     {
         private readonly IFuelReadRepository fuelReadRepository;
         private readonly IFuelWriteRepository fuelWriteRepository;
-        private readonly IUnitOfWork unitOfWork;
         private readonly ISupplierReadRepository supplierReadRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public FuelService(IFuelReadRepository fuelReadRepository,
             IFuelWriteRepository fuelWriteRepository,
-            IUnitOfWork unitOfWork,
             ISupplierReadRepository supplierReadRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.fuelReadRepository = fuelReadRepository;
             this.fuelWriteRepository = fuelWriteRepository;
-            this.unitOfWork = unitOfWork;
             this.supplierReadRepository = supplierReadRepository;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -58,7 +58,6 @@ namespace FuelAccounting.Services.Implementations
             fuel.Supplier = mapper.Map<SupplierModel>(supplier);
             return fuel;
         }
-
 
         async Task<FuelModel> IFuelService.AddAsync(FuelRequestModel fuel, CancellationToken cancellationToken)
         {
