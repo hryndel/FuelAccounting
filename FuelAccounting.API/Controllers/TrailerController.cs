@@ -114,7 +114,6 @@ namespace FuelAccounting.API.Controllers
         [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
         [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await trailerService.DeleteAsync(id, cancellationToken);

@@ -105,10 +105,9 @@ namespace FuelAccounting.API.Controllers
         /// Удалить водителя по id
         /// </summary>
         [HttpDelete("{id:guid}")]
-        [ApiOk]
         [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
+        [ApiOk]
         [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await driverService.DeleteAsync(id, cancellationToken);

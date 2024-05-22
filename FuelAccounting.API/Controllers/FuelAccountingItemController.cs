@@ -72,6 +72,7 @@ namespace FuelAccounting.API.Controllers
         [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelAccountingItemResponse))]
         [ApiConflict]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Create(CreateFuelAccountingItemRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);
@@ -86,8 +87,9 @@ namespace FuelAccounting.API.Controllers
         [HttpPut]
         [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelAccountingItemResponse))]
-        [ApiConflict]
         [ApiNotFound]
+        [ApiConflict]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Edit(FuelAccountingItemRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);
@@ -102,7 +104,6 @@ namespace FuelAccounting.API.Controllers
         [HttpDelete("{id}")]
         [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
-        [ApiConflict]
         [ApiNotFound]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
@@ -115,7 +116,9 @@ namespace FuelAccounting.API.Controllers
         /// Отправляет сформированный PDF документ по id
         /// </summary>
         [HttpGet("document{id:guid}")]
+        [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
+        [ApiNotFound]
         public async Task<IActionResult> GetDocumentById(Guid id, CancellationToken cancellationToken)
         {
             var path = webHostEnvironment.WebRootPath + "/Document.html";

@@ -21,12 +21,12 @@ namespace FuelAccounting.Services.Implementations
             var user = await userReadRepository.GetByLoginAsync(login, cancellationToken);
             if (user == null)
             {
-                throw new FuelAccountingInvalidOperationException("Пользователь не найден.");
+                throw new FuelAccountingNotFoundException("Пользователь не найден.");
             }
             
             if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                throw new FuelAccountingInvalidOperationException("Пользователь не найден.");
+                throw new FuelAccountingInvalidOperationException("Неверный пароль.");
             }
 
              var claims = new List<Claim>            
