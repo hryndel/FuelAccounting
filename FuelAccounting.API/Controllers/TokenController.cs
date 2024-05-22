@@ -1,4 +1,5 @@
-﻿using FuelAccounting.Services.Contracts.Interfaces;
+﻿using FuelAccounting.API.Attribute;
+using FuelAccounting.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuelAccounting.API.Controllers
@@ -25,6 +26,9 @@ namespace FuelAccounting.API.Controllers
         /// Авторизироваться
         /// </summary>
         [HttpPost("signIn")]
+        [ApiOk]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<string> Auth(string login, string password, CancellationToken cancellationToken)
         {
             var token = await tokenService.Authorization(login, password, cancellationToken);

@@ -51,7 +51,7 @@ namespace FuelAccounting.API.Controllers
         [HttpGet("free")]
         [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(IEnumerable<DriverResponse>))]
-        public async Task<IActionResult> GetAllFree(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetFreeAll(CancellationToken cancellationToken)
         {
             var result = await driverService.GetFreeAllAsync(cancellationToken);
             return Ok(mapper.Map<IEnumerable<DriverResponse>>(result));
@@ -105,10 +105,9 @@ namespace FuelAccounting.API.Controllers
         /// Удалить водителя по id
         /// </summary>
         [HttpDelete("{id:guid}")]
-        [ApiOk]
         [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
+        [ApiOk]
         [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await driverService.DeleteAsync(id, cancellationToken);

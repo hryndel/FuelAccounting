@@ -13,13 +13,23 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
         Task<IReadOnlyCollection<FuelAccountingItem>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получить <see cref="FuelAccountingItem"/> по идентификатору
+        /// </summary>
+        Task<FuelAccountingItem?> GetByIdAsync(Guid id, CancellationToken cancellation);
+
+        /// <summary>
         /// Получить последний <see cref="FuelAccountingItem"/> по id водителя
         /// </summary>
         Task<FuelAccountingItem?> GetByDriverIdAsync(Guid driverId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Получить <see cref="FuelAccountingItem"/> по идентификатору
+        /// Получить последний <see cref="FuelAccountingItem"/> по id полуприцепа
         /// </summary>
-        Task<FuelAccountingItem?> GetByIdAsync(Guid id, CancellationToken cancellation);
+        Task<FuelAccountingItem?> GetByTrailerIdAsync(Guid trailerId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить последний <see cref="FuelAccountingItem"/> по id грузовика
+        /// </summary>
+        Task<FuelAccountingItem?> GetByTruckIdAsync(Guid truckId, CancellationToken cancellationToken);
     }
 }

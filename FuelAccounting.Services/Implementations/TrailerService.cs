@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FuelAccounting.Common;
 using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
@@ -13,18 +14,24 @@ namespace FuelAccounting.Services.Implementations
     {
         private readonly ITrailerReadRepository trailerReadRepository;
         private readonly ITrailerWriteRepository trailerWriteRepository;
+        private readonly IFuelAccountingItemReadRepository fuelAccountingItemReadRepository;
+        private readonly IDateTimeProvider dateTimeProvider;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public TrailerService(ITrailerReadRepository trailerReadRepository,
             ITrailerWriteRepository trailerWriteRepository,
+            IFuelAccountingItemReadRepository fuelAccountingItemReadRepository,
+            IDateTimeProvider dateTimeProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.trailerReadRepository = trailerReadRepository;
-            this.mapper = mapper;
             this.trailerWriteRepository = trailerWriteRepository;
+            this.fuelAccountingItemReadRepository = fuelAccountingItemReadRepository;
+            this.dateTimeProvider = dateTimeProvider;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         async Task<IEnumerable<TrailerModel>> ITrailerService.GetAllAsync(CancellationToken cancellationToken)
@@ -42,6 +49,21 @@ namespace FuelAccounting.Services.Implementations
             }
 
             return mapper.Map<TrailerModel>(item);
+        }
+
+        async Task<IEnumerable<TrailerModel>> ITrailerService.GetFreeAllAsync(CancellationToken cancellationToken)
+        {
+            var result = await trailerReadRepository.GetAllAsync(cancellationToken);
+            var listTrailerModel = new List<TrailerModel>();
+            foreach (var item in result)
+            {
+                var document = await fuelAccountingItemReadRepository.GetByTrailerIdAsync(item.Id, cancellationToken);
+                if (document != null || dateTimeProvider.UtcNow < document?.EndDate) continue;
+                var trailer = mapper.Map<TrailerModel>(item);
+                listTrailerModel.Add(trailer);
+            }
+
+            return listTrailerModel;
         }
 
         async Task<TrailerModel> ITrailerService.AddAsync(TrailerRequestModel trailer, CancellationToken cancellationToken)

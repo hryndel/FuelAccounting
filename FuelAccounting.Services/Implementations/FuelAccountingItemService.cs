@@ -234,8 +234,8 @@ namespace FuelAccounting.Services.Implementations
             {
                 string text = await reader.ReadToEndAsync();
                 text = text.Replace("%id%", fuelDelivery.Id.ToString());
-                text = text.Replace("%dateStart%", fuelDelivery.StartDate.ToString());
-                text = text.Replace("%dateEnd%", fuelDelivery.EndDate.ToString());
+                text = text.Replace("%dateStart%", fuelDelivery.StartDate.Date.ToString());
+                text = text.Replace("%dateEnd%", fuelDelivery.EndDate.Date.ToString());
                 text = text.Replace("%driver%", $"{fuelDelivery.Driver.FirstName} {fuelDelivery.Driver.LastName} {fuelDelivery.Driver.Patronymic}");
                 text = text.Replace("%truck%", $"{fuelDelivery.Truck.Name} | {fuelDelivery.Truck.Number}");
                 text = text.Replace("%trailer%", $"{fuelDelivery.Trailer.Name} | {fuelDelivery.Trailer.Number}");

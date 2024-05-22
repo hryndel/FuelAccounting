@@ -27,6 +27,7 @@ namespace FuelAccounting.API.Validators.Trailer
                 .NotNull().WithMessage("Номер не должен быть null.")
                 .NotEmpty().WithMessage("Номер не должен быть пустым.")
                 .Length(2, 10).WithMessage("Номер не должен быть меньше 2 и больше 10 символов.")
+                .Matches(@"^[АВЕКМНОРСТУХ]{2}\d{4}(?<!0000)\d{2,3}").WithMessage("Номер должен соответствовать госту.")
                 .Must((trailer, _) =>
                 {
                     var numberExists = trailerReadRepository.AnyByNumberAndId(trailer.Number, trailer.Id);

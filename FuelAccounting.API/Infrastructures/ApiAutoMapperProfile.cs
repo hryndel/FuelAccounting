@@ -74,7 +74,7 @@ namespace FuelAccounting.API.Infrastructures
                 .ForMember(x => x.Driver, opt => opt.MapFrom(x => $"{x.Driver.FirstName} {x.Driver.LastName} {x.Driver.Patronymic}"))
                 .ForMember(x => x.Truck, opt => opt.MapFrom(x => $"{x.Truck.Name} | {x.Truck.Number}"))
                 .ForMember(x => x.Trailer, opt => opt.MapFrom(x => $"{x.Trailer.Name} | {x.Trailer.Number}"))
-                .ForMember(x => x.Fuel, opt => opt.MapFrom(x => x.Fuel.FuelType))
+                .ForMember(x => x.Fuel, opt => opt.MapFrom(x => $"{x.Fuel.FuelType}"))
                 .ForMember(x => x.FuelStation, opt => opt.MapFrom(x => x.FuelStation.Name));
             CreateMap<CreateFuelAccountingItemRequest, FuelAccountingItemRequestModel>(MemberList.Destination)
                 .ForMember(x => x.Id, opt => opt.Ignore());

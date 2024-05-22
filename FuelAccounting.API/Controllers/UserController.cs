@@ -82,6 +82,7 @@ namespace FuelAccounting.API.Controllers
         [ApiOk(typeof(UserResponse))]
         [ApiNotFound]
         [ApiConflict]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Edit(UserRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);
