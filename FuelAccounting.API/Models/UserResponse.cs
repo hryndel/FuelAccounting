@@ -36,11 +36,6 @@
         public string Login { get; set; } = string.Empty;
 
         /// <summary>
-        /// Пароль
-        /// </summary>
-        public string Password { get; set; } = string.Empty;
-
-        /// <summary>
         /// Тип
         /// </summary>
         public string UserType { get; set; } = string.Empty;
