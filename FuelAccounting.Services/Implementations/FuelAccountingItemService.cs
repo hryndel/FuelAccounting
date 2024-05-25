@@ -79,11 +79,15 @@ namespace FuelAccounting.Services.Implementations
                 if (!fuels.TryGetValue(fuelDeliveryItem.FuelId, out var fuel)) continue;
                 if (!fuelStations.TryGetValue(fuelDeliveryItem.FuelStationId, out var fuelStation)) continue;
                 
+                var supplier = await supplierReadRepository.GetByIdAsync(fuel.SupplierId, cancellationToken);
+                if (supplier == null) continue;
+                
                 var fuelDelivery = mapper.Map<FuelAccountingItemModel>(fuelDeliveryItem);
                 fuelDelivery.Driver = mapper.Map<DriverModel>(driver);
                 fuelDelivery.Truck = mapper.Map<TruckModel>(truck);
                 fuelDelivery.Trailer = mapper.Map<TrailerModel>(trailer);
                 fuelDelivery.Fuel = mapper.Map<FuelModel>(fuel);
+                fuelDelivery.Fuel.Supplier = mapper.Map<SupplierModel>(supplier);
                 fuelDelivery.FuelStation = mapper.Map<FuelStationModel>(fuelStation);
                 listFuelDeliveryItemModel.Add(fuelDelivery);
             }
@@ -103,6 +107,7 @@ namespace FuelAccounting.Services.Implementations
             var truck = await truckReadRepository.GetByIdAsync(item.TruckId, cancellationToken);
             var trailer = await trailerReadRepository.GetByIdAsync(item.TrailerId, cancellationToken);
             var fuel = await fuelReadRepository.GetByIdAsync(item.FuelId, cancellationToken);
+            var supplier = await supplierReadRepository.GetByIdAsync(fuel.SupplierId, cancellationToken);
             var fuelStation = await fuelStationReadRepository.GetByIdAsync(item.FuelStationId, cancellationToken);
             var fuelDelivery = mapper.Map<FuelAccountingItemModel>(item);
 
@@ -110,6 +115,7 @@ namespace FuelAccounting.Services.Implementations
             fuelDelivery.Truck = mapper.Map<TruckModel>(truck);
             fuelDelivery.Trailer = mapper.Map<TrailerModel>(trailer);
             fuelDelivery.Fuel = mapper.Map<FuelModel>(fuel);
+            fuelDelivery.Fuel.Supplier = mapper.Map<SupplierModel>(supplier);
             fuelDelivery.FuelStation = mapper.Map<FuelStationModel>(fuelStation);
             return fuelDelivery;
         }
