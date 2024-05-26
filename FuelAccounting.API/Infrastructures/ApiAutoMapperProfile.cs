@@ -73,6 +73,8 @@ namespace FuelAccounting.API.Infrastructures
             CreateMap<CreateFuelAccountingItemRequest, FuelAccountingItemRequestModel>(MemberList.Destination)
                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<FuelAccountingItemRequest, FuelAccountingItemRequestModel>(MemberList.Destination);
+
+            CreateMap<TokenModel, TokenResponse>(MemberList.Destination);
         }
     }
 }

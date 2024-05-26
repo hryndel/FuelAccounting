@@ -1,4 +1,6 @@
-﻿using FuelAccounting.API.Attribute;
+﻿using AutoMapper;
+using FuelAccounting.API.Attribute;
+using FuelAccounting.API.Models;
 using FuelAccounting.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,26 +15,28 @@ namespace FuelAccounting.API.Controllers
     public class TokenController : ControllerBase
     {
         private readonly ITokenService tokenService;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="TokenController"/>
         /// </summary>
-        public TokenController(ITokenService tokenService)
+        public TokenController(ITokenService tokenService, IMapper mapper)
         {
             this.tokenService = tokenService;
+            this.mapper = mapper;
         }
 
         /// <summary>
         /// Авторизироваться
         /// </summary>
         [HttpPost("signIn")]
-        [ApiOk]
+        [ApiOk(typeof(IEnumerable<TokenResponse>))]
         [ApiNotFound]
         [ApiNotAcceptable]
-        public async Task<string> Auth(string login, string password, CancellationToken cancellationToken)
+        public async Task<IActionResult> Auth(string login, string password, CancellationToken cancellationToken)
         {
             var token = await tokenService.Authorization(login, password, cancellationToken);
-            return token;
+            return Ok(mapper.Map<TokenResponse>(token));
         }
     }
 }

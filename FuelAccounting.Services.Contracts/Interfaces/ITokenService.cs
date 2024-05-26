@@ -1,10 +1,12 @@
-﻿namespace FuelAccounting.Services.Contracts.Interfaces
+﻿using FuelAccounting.Services.Contracts.Models;
+
+namespace FuelAccounting.Services.Contracts.Interfaces
 {
     public interface ITokenService
     {
         /// <summary>
         /// Авторизация по логину и паролю
         /// </summary>
-        Task<string> Authorization(string login, string password, CancellationToken cancellationToken);
+        Task<TokenModel> Authorization(string login, string password, CancellationToken cancellationToken);
     }
 }

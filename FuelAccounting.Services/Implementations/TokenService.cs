@@ -1,6 +1,8 @@
 ﻿using FuelAccounting.Repositories.Contracts.Interfaces;
 using FuelAccounting.Services.Contracts.Exceptions;
 using FuelAccounting.Services.Contracts.Interfaces;
+using FuelAccounting.Services.Contracts.Models;
+using FuelAccounting.Services.Contracts.Models.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,7 +18,7 @@ namespace FuelAccounting.Services.Implementations
             this.userReadRepository = userReadRepository;
         }
 
-        async Task<string> ITokenService.Authorization(string login, string password, CancellationToken cancellationToken)
+        async Task<TokenModel> ITokenService.Authorization(string login, string password, CancellationToken cancellationToken)
         {
             var user = await userReadRepository.GetByLoginAsync(login, cancellationToken);
             if (user == null)
@@ -34,8 +36,14 @@ namespace FuelAccounting.Services.Implementations
                  new Claim(ClaimTypes.Name, user.Login),
                  new Claim(ClaimTypes.Role, user.UserType.ToString())
              };
-             var accessToken = GenerateAccessToken(claims);
-             return accessToken;
+            var accessToken = GenerateAccessToken(claims);
+            TokenModel tokenModel = new TokenModel
+            {
+                UserType = (UserTypesModel)user.UserType,
+                Token = accessToken
+            };
+
+             return tokenModel;
         }
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
