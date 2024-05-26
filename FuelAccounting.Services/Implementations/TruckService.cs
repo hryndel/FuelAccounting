@@ -71,9 +71,9 @@ namespace FuelAccounting.Services.Implementations
             var item = new Truck
             {
                 Id = Guid.NewGuid(),
-                Name = truck.Name,
-                Number = truck.Number,
-                Vin = truck.Vin
+                Name = truck.Name.Trim(),
+                Number = truck.Number.Trim(),
+                Vin = truck.Vin.Trim()
             };
 
             truckWriteRepository.Add(item);
@@ -89,9 +89,9 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Truck>(source.Id);
             }
 
-            targetTruck.Name = source.Name;
-            targetTruck.Number = source.Number;
-            targetTruck.Vin = source.Vin;
+            targetTruck.Name = source.Name.Trim();
+            targetTruck.Number = source.Number.Trim();
+            targetTruck.Vin = source.Vin.Trim();
 
             truckWriteRepository.Update(targetTruck);
             await unitOfWork.SaveChangesAsync(cancellationToken);

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DinkToPdf.Contracts;
 using FuelAccounting.API.Attribute;
 using FuelAccounting.API.Infrastructures.Validator;
 using FuelAccounting.API.Models;
@@ -115,15 +114,15 @@ namespace FuelAccounting.API.Controllers
         /// <summary>
         /// Отправляет сформированный PDF документ по id
         /// </summary>
-        [HttpGet("document{id:guid}")]
+        [HttpGet("document={id:guid}")]
         [Authorize(Roles = $"{nameof(UserTypes.Employee)}, {nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk]
         [ApiNotFound]
-        public async Task<IActionResult> GetDocumentById(Guid id, CancellationToken cancellationToken)
+        public async Task<FileContentResult> GetDocumentById(Guid id, CancellationToken cancellationToken)
         {
             var path = webHostEnvironment.WebRootPath + "/Document.html";
             var document = await fuelAccountingItemService.GetDocumentById(id, path, cancellationToken);
-            return File(document, "application/pdf", "Document.pdf");
+            return new FileContentResult(document, "application/pdf");
         }
     }
 }
