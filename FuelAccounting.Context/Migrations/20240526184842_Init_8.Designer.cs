@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuelAccounting.Context.Migrations
 {
     [DbContext(typeof(FuelAccountingContext))]
-    [Migration("20240520155807_Init_7")]
-    partial class Init_7
+    [Migration("20240526184842_Init_8")]
+    partial class Init_8
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
