@@ -31,6 +31,7 @@ namespace FuelAccounting.API.Validators.Driver
                 .NotNull().WithMessage("Телефон не должен быть null")
                 .NotEmpty().WithMessage("Телефон не должен быть пустым")
                 .Length(2, 20).WithMessage("Телефон не должен быть меньше 2 и больше 20 символов")
+                .Matches(@"^[1-9][(]\d{3}[)][-]\d{3}[-]\d{2}[-]\d{2}").WithMessage("Номер должен быть действительным.")
                 .MustAsync(async (phone, CancellationToken) =>
                 {
                     var phoneExists = await driverReadRepository.AnyByPhoneAsync(phone, CancellationToken);
@@ -41,6 +42,7 @@ namespace FuelAccounting.API.Validators.Driver
                 .NotNull().WithMessage("Лицензия не должна быть null")
                 .NotEmpty().WithMessage("Лицензия не должна быть пустой")
                 .Length(2, 15).WithMessage("Лицензия не должна быть меньше 2 и больше 15 символов")
+                .Matches(@"^\d{2}[-]\d{2}[-]\d{6}").WithMessage("Лицензия должна быть действительной.")
                 .MustAsync(async (driverLicense, CancellationToken) =>
                 {
                     var driversLicenseExists = await driverReadRepository.AnyByDriversLicenseAsync(driverLicense, CancellationToken);

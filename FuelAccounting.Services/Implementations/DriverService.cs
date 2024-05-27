@@ -71,11 +71,11 @@ namespace FuelAccounting.Services.Implementations
             var item = new Driver
             {
                 Id = Guid.NewGuid(),
-                FirstName = driver.FirstName,
-                LastName = driver.LastName,
-                Patronymic = driver.Patronymic,
-                Phone = driver.Phone,
-                DriversLicense = driver.DriversLicense
+                FirstName = driver.FirstName.Trim(),
+                LastName = driver.LastName.Trim(),
+                Patronymic = string.IsNullOrWhiteSpace(driver.Patronymic) ? null : driver.Patronymic.Trim(),
+                Phone = driver.Phone.Trim(),
+                DriversLicense = driver.DriversLicense.Trim()
             };
 
             driverWriteRepository.Add(item);
@@ -91,11 +91,11 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Driver>(source.Id);
             }
 
-            targetDriver.FirstName = source.FirstName;
-            targetDriver.LastName = source.LastName;
-            targetDriver.Patronymic = source.Patronymic;
-            targetDriver.Phone = source.Phone;
-            targetDriver.DriversLicense = source.DriversLicense;
+            targetDriver.FirstName = source.FirstName.Trim();
+            targetDriver.LastName = source.LastName.Trim();
+            targetDriver.Patronymic = string.IsNullOrWhiteSpace(source.Patronymic) ? null : source.Patronymic.Trim();
+            targetDriver.Phone = source.Phone.Trim();
+            targetDriver.DriversLicense = source.DriversLicense.Trim();
 
             driverWriteRepository.Update(targetDriver);
             await unitOfWork.SaveChangesAsync(cancellationToken);

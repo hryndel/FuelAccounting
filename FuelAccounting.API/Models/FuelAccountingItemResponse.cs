@@ -11,24 +11,24 @@
         public Guid Id { get; set; }
 
         /// <summary>
-        /// ФИО водителя
+        /// <see cref="DriverResponse"/>
         /// </summary>
-        public string Driver { get; set; } = string.Empty;
+        public DriverResponse? Driver { get; set; }
 
         /// <summary>
-        /// Название грузовика + номер
+        /// <see cref="TruckResponse"/>
         /// </summary>
-        public string Truck { get; set; } = string.Empty;
+        public TruckResponse? Truck { get; set; }
 
         /// <summary>
-        /// Название полуприцепа + номер
+        /// <see cref="TrailerResponse"/>
         /// </summary>
-        public string Trailer { get; set; } = string.Empty;
+        public TrailerResponse? Trailer { get; set; }
 
         /// <summary>
-        /// Название топлива + поставщик
+        /// <see cref="FuelResponse"/>
         /// </summary>
-        public string Fuel { get; set; } = string.Empty;
+        public FuelResponse? Fuel { get; set; }
 
         /// <summary>
         /// Количество топлива
@@ -36,9 +36,9 @@
         public double Count { get; set; }
 
         /// <summary>
-        /// Название АЗС
+        /// <see cref="FuelStationResponse"/>
         /// </summary>
-        public string FuelStation { get; set; } = string.Empty;
+        public FuelStationResponse? FuelStation { get; set; }
 
         /// <summary>
         /// Дата отправки

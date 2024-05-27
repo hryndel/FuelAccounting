@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 namespace FuelAccounting.Context
 {
     /// <summary>
-    /// Файбрика для создания контекста в DesignTime (Миграции)
+    /// Фабрика для создания контекста в DesignTime (Миграции)
     /// </summary>
     public class SampleContextFactory : IDesignTimeDbContextFactory<FuelAccountingContext>
     {

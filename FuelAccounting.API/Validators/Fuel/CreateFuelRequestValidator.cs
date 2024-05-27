@@ -20,7 +20,7 @@ namespace FuelAccounting.API.Validators.Fuel
 
             RuleFor(fuel => fuel.Price)
                 .NotNull().WithMessage("Цена не должна быть null.")
-                .NotEmpty().WithMessage("Цена не должена быть пустой."); ;
+                .NotEmpty().WithMessage("Цена не должена быть пустой.");
 
             RuleFor(fuel => fuel.SupplierId)
                 .NotNull().WithMessage("Поставщик не должен быть null.")
@@ -33,8 +33,7 @@ namespace FuelAccounting.API.Validators.Fuel
                 .WithMessage("Такого поставщика не существует.");
 
             RuleFor(fuel => fuel.Count)
-                .NotNull().WithMessage("Количество не должно быть null.")
-                .NotEmpty().WithMessage("Количество не должно быть пустым.");
+                .NotNull().WithMessage("Количество не должно быть null.");
         }
     }
 }

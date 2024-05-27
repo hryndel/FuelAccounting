@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using FuelAccounting.Common;
 using FuelAccounting.Common.Entity.InterfacesDB;
 using FuelAccounting.Context.Contracts.Models;
 using FuelAccounting.Repositories.Contracts.Interfaces;
@@ -23,6 +24,7 @@ namespace FuelAccounting.Services.Implementations
         private readonly IFuelWriteRepository fuelWriteRepository;
         private readonly IFuelStationReadRepository fuelStationReadRepository;
         private readonly ISupplierReadRepository supplierReadRepository;
+        private readonly IDateTimeProvider dateTimeProvider;
         private readonly IConverter converter;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
@@ -36,6 +38,7 @@ namespace FuelAccounting.Services.Implementations
             IFuelWriteRepository fuelWriteRepository,
             IFuelStationReadRepository fuelStationReadRepository,
             ISupplierReadRepository supplierReadRepository,
+            IDateTimeProvider dateTimeProvider,
             IConverter converter,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -49,6 +52,7 @@ namespace FuelAccounting.Services.Implementations
             this.fuelWriteRepository = fuelWriteRepository;
             this.fuelStationReadRepository = fuelStationReadRepository;
             this.supplierReadRepository = supplierReadRepository;
+            this.dateTimeProvider = dateTimeProvider;
             this.converter = converter;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -79,11 +83,15 @@ namespace FuelAccounting.Services.Implementations
                 if (!fuels.TryGetValue(fuelDeliveryItem.FuelId, out var fuel)) continue;
                 if (!fuelStations.TryGetValue(fuelDeliveryItem.FuelStationId, out var fuelStation)) continue;
                 
+                var supplier = await supplierReadRepository.GetByIdAsync(fuel.SupplierId, cancellationToken);
+                if (supplier == null) continue;
+                
                 var fuelDelivery = mapper.Map<FuelAccountingItemModel>(fuelDeliveryItem);
                 fuelDelivery.Driver = mapper.Map<DriverModel>(driver);
                 fuelDelivery.Truck = mapper.Map<TruckModel>(truck);
                 fuelDelivery.Trailer = mapper.Map<TrailerModel>(trailer);
                 fuelDelivery.Fuel = mapper.Map<FuelModel>(fuel);
+                fuelDelivery.Fuel.Supplier = mapper.Map<SupplierModel>(supplier);
                 fuelDelivery.FuelStation = mapper.Map<FuelStationModel>(fuelStation);
                 listFuelDeliveryItemModel.Add(fuelDelivery);
             }
@@ -103,6 +111,7 @@ namespace FuelAccounting.Services.Implementations
             var truck = await truckReadRepository.GetByIdAsync(item.TruckId, cancellationToken);
             var trailer = await trailerReadRepository.GetByIdAsync(item.TrailerId, cancellationToken);
             var fuel = await fuelReadRepository.GetByIdAsync(item.FuelId, cancellationToken);
+            var supplier = await supplierReadRepository.GetByIdAsync(fuel.SupplierId, cancellationToken);
             var fuelStation = await fuelStationReadRepository.GetByIdAsync(item.FuelStationId, cancellationToken);
             var fuelDelivery = mapper.Map<FuelAccountingItemModel>(item);
 
@@ -110,6 +119,7 @@ namespace FuelAccounting.Services.Implementations
             fuelDelivery.Truck = mapper.Map<TruckModel>(truck);
             fuelDelivery.Trailer = mapper.Map<TrailerModel>(trailer);
             fuelDelivery.Fuel = mapper.Map<FuelModel>(fuel);
+            fuelDelivery.Fuel.Supplier = mapper.Map<SupplierModel>(supplier);
             fuelDelivery.FuelStation = mapper.Map<FuelStationModel>(fuelStation);
             return fuelDelivery;
         }
@@ -126,6 +136,11 @@ namespace FuelAccounting.Services.Implementations
             if (fuelDeliveryItem.Count > fuel!.Count)
             {
                 throw new FuelAccountingInvalidOperationException("Количество заказываемого топлива не может быть больше, чем на базе.");
+            }
+
+            if (fuelDeliveryItem.StartDate == fuelDeliveryItem.EndDate)
+            {
+                throw new FuelAccountingInvalidOperationException("Дата и время отправки не может совпадать с прибытием.");
             }
 
             var item = new FuelAccountingItem
@@ -153,6 +168,11 @@ namespace FuelAccounting.Services.Implementations
             if (targetFuelDeliveryItem == null)
             {
                 throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(source.Id);
+            }
+
+            if (source.StartDate == source.EndDate)
+            {
+                throw new FuelAccountingInvalidOperationException("Дата и время отправки не может совпадать с прибытием.");
             }
 
             var driver = await driverReadRepository.GetByIdAsync(source.DriverId, cancellationToken);
@@ -199,9 +219,17 @@ namespace FuelAccounting.Services.Implementations
         async Task IFuelAccountingItemService.DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var targetFuelDeliveryItem = await fuelDeliveryItemReadRepository.GetByIdAsync(id, cancellationToken);
+
             if (targetFuelDeliveryItem == null)
             {
                 throw new FuelAccountingEntityNotFoundException<FuelAccountingItem>(id);
+            }
+
+            var fuel = await fuelReadRepository.GetByIdAsync(targetFuelDeliveryItem.FuelId, cancellationToken);
+
+            if (fuel != null && dateTimeProvider.UtcNow < targetFuelDeliveryItem.EndDate)
+            {
+                fuelWriteRepository.UpdateFuelCount(fuel, -targetFuelDeliveryItem.Count);
             }
 
             fuelDeliveryItemWriteRepository.Delete(targetFuelDeliveryItem);
@@ -234,16 +262,23 @@ namespace FuelAccounting.Services.Implementations
             {
                 string text = await reader.ReadToEndAsync();
                 text = text.Replace("%id%", fuelDelivery.Id.ToString());
-                text = text.Replace("%dateStart%", fuelDelivery.StartDate.Date.ToString());
-                text = text.Replace("%dateEnd%", fuelDelivery.EndDate.Date.ToString());
-                text = text.Replace("%driver%", $"{fuelDelivery.Driver.FirstName} {fuelDelivery.Driver.LastName} {fuelDelivery.Driver.Patronymic}");
-                text = text.Replace("%truck%", $"{fuelDelivery.Truck.Name} | {fuelDelivery.Truck.Number}");
-                text = text.Replace("%trailer%", $"{fuelDelivery.Trailer.Name} | {fuelDelivery.Trailer.Number}");
-                text = text.Replace("%fuelStation%", $"{fuelDelivery.FuelStation.Name} | {fuelDelivery.FuelStation.Address}");
+                text = text.Replace("%dateStart%", fuelDelivery.StartDate.LocalDateTime.ToString("g"));
+                text = text.Replace("%dateEnd%", fuelDelivery.EndDate.LocalDateTime.ToString("g"));
+                text = text.Replace("%driverFio%", $"{fuelDelivery.Driver.FirstName} {fuelDelivery.Driver.LastName} {fuelDelivery.Driver.Patronymic}");
+                text = text.Replace("%driverDriversLicense%", fuelDelivery.Driver.DriversLicense);
+                text = text.Replace("%truckName%", fuelDelivery.Truck.Name);
+                text = text.Replace("%truckNumber%", fuelDelivery.Truck.Number);
+                text = text.Replace("%truckVin%", fuelDelivery.Truck.Vin);
+                text = text.Replace("%trailerName%",fuelDelivery.Trailer.Name); 
+                text = text.Replace("%trailerNumber%", fuelDelivery.Trailer.Number);
+                text = text.Replace("%trailerCapacity%", fuelDelivery.Trailer.Capacity.ToString());
+                text = text.Replace("%fuelStation%", fuelDelivery.FuelStation.Name);
+                text = text.Replace("%fuelStationAddress%", fuelDelivery.FuelStation.Address);
                 text = text.Replace("%fuel%", fuelDelivery.Fuel.FuelType.ToString());
+                text = text.Replace("%supplier%", supplier!.Name);
                 text = text.Replace("%count%", fuelDelivery.Count.ToString());
-                text = text.Replace("%supplier%", supplier!.Name.ToString());
-                text = text.Replace("%price%", $"{fuelDelivery.Count * fuelDelivery.Fuel.Price} руб.");
+                text = text.Replace("%price%", fuelDelivery.Fuel.Price.ToString());
+                text = text.Replace("%fullPrice%", $"{fuelDelivery.Count * fuelDelivery.Fuel.Price} руб.");
 
                 var globalSettings = new GlobalSettings
                 {

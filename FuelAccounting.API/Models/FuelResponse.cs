@@ -1,4 +1,6 @@
-﻿namespace FuelAccounting.API.Models
+﻿using FuelAccounting.API.Models.Enums;
+
+namespace FuelAccounting.API.Models
 {
     /// <summary>
     /// Модель ответа сущности топлива
@@ -13,7 +15,7 @@
         /// <summary>
         /// Тип
         /// </summary>
-        public string FuelType { get; set; } = string.Empty;
+        public FuelTypesResponse FuelType { get; set; } = FuelTypesResponse.Petrol92;
 
         /// <summary>
         /// Цена
@@ -21,9 +23,9 @@
         public double Price { get; set; }
 
         /// <summary>
-        /// Поставщик
+        /// <see cref="SupplierResponse"/>
         /// </summary>
-        public string Supplier { get; set; } = string.Empty;
+        public SupplierResponse? Supplier { get; set; }
 
         /// <summary>
         /// Количество

@@ -49,9 +49,9 @@ namespace FuelAccounting.Services.Implementations
             var item = new FuelStation
             {
                 Id = Guid.NewGuid(),
-                Name = fuelStation.Name,
-                Address = fuelStation.Address,
-                Description = fuelStation.Description
+                Name = fuelStation.Name.Trim(),
+                Address = fuelStation.Address.Trim(),
+                Description = string.IsNullOrWhiteSpace(fuelStation.Description) ? null : fuelStation.Description.Trim(),
             };
 
             fuelStationWriteRepository.Add(item);
@@ -67,9 +67,9 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<FuelStation>(source.Id);
             }
 
-            targetFuelStation.Name = source.Name;
-            targetFuelStation.Address = source.Address;
-            targetFuelStation.Description = source.Description;
+            targetFuelStation.Name = source.Name.Trim();
+            targetFuelStation.Address = source.Address.Trim();
+            targetFuelStation.Description = string.IsNullOrWhiteSpace(source.Description) ? null : source.Description.Trim();
 
             fuelStationWriteRepository.Update(targetFuelStation);
             await unitOfWork.SaveChangesAsync(cancellationToken);

@@ -50,12 +50,12 @@ namespace FuelAccounting.Services.Implementations
             var item = new User
             {
                 Id = Guid.NewGuid(),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Patronymic = user.Patronymic,
-                Mail = user.Mail,
-                Login = user.Login,
-                Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
+                FirstName = user.FirstName.Trim(),
+                LastName = user.LastName.Trim(),
+                Patronymic = string.IsNullOrWhiteSpace(user.Patronymic) ? null : user.Patronymic.Trim(),
+                Mail = user.Mail.Trim(),
+                Login = user.Login.Trim(),
+                Password = BCrypt.Net.BCrypt.HashPassword(user.Password.Trim()),
                 UserType = (UserTypes)user.UserType
             };
 
@@ -73,17 +73,17 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<User>(source.Id);
             }
 
-            if (countAdmins.Count == 1 && targetUser.UserType == UserTypes.Administrator && (UserTypes)source.UserType != UserTypes.Administrator)
+            if (countAdmins.Count == 1 && targetUser.UserType == UserTypes.Administrator && (UserTypes)source.UserType != targetUser.UserType)
             {
                 throw new FuelAccountingInvalidOperationException($"Нельзя изменить роль последнему администратору.");
             }
 
-            targetUser.FirstName = source.FirstName;
-            targetUser.LastName = source.LastName;
-            targetUser.Patronymic = source.Patronymic;
-            targetUser.Mail = source.Mail;
-            targetUser.Login = source.Login;
-            targetUser.Password = BCrypt.Net.BCrypt.HashPassword(source.Password);
+            targetUser.FirstName = source.FirstName.Trim();
+            targetUser.LastName = source.LastName.Trim();
+            targetUser.Patronymic = string.IsNullOrWhiteSpace(source.Patronymic) ? null : source.Patronymic.Trim();
+            targetUser.Mail = source.Mail.Trim();
+            targetUser.Login = source.Login.Trim();
+            targetUser.Password = BCrypt.Net.BCrypt.HashPassword(source.Password.Trim());
             targetUser.UserType = (UserTypes)source.UserType;
 
             userWriteRepository.Update(targetUser);

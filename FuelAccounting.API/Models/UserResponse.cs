@@ -1,4 +1,6 @@
-﻿namespace FuelAccounting.API.Models
+﻿using FuelAccounting.API.Models.Enums;
+
+namespace FuelAccounting.API.Models
 {
     /// <summary>
     /// Модель ответа сущности пользователя
@@ -36,13 +38,8 @@
         public string Login { get; set; } = string.Empty;
 
         /// <summary>
-        /// Пароль
-        /// </summary>
-        public string Password { get; set; } = string.Empty;
-
-        /// <summary>
         /// Тип
         /// </summary>
-        public string UserType { get; set; } = string.Empty;
+        public UserTypesResponse UserType { get; set; } = UserTypesResponse.Employee;
     }
 }

@@ -37,8 +37,7 @@ namespace FuelAccounting.API.Validators.Fuel
                 .WithMessage("Такого поставщика не существует.");
 
             RuleFor(fuel => fuel.Count)
-                .NotNull().WithMessage("Количество не должно быть null.")
-                .NotEmpty().WithMessage("Количество не должно быть пустым.");
+                .NotNull().WithMessage("Количество не должно быть null.");
         }
     }
 }

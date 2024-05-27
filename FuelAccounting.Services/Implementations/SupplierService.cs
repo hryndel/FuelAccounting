@@ -49,10 +49,10 @@ namespace FuelAccounting.Services.Implementations
             var item = new Supplier
             {
                 Id = Guid.NewGuid(),
-                Name = supplier.Name,
-                Inn = supplier.Inn,
-                Phone = supplier.Phone,
-                Description = supplier.Description
+                Name = supplier.Name.Trim(),
+                Inn = supplier.Inn.Trim(),
+                Phone = supplier.Phone.Trim(),
+                Description = string.IsNullOrWhiteSpace(supplier.Description) ? null : supplier.Description.Trim()
             };
 
             supplierWriteRepository.Add(item);
@@ -68,10 +68,10 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Supplier>(source.Id);
             }
 
-            targetSupplier.Name = source.Name;
-            targetSupplier.Inn = source.Inn;
-            targetSupplier.Phone = source.Phone;
-            targetSupplier.Description = source.Description;
+            targetSupplier.Name = source.Name.Trim();
+            targetSupplier.Inn = source.Inn.Trim();
+            targetSupplier.Phone = source.Phone.Trim();
+            targetSupplier.Description = string.IsNullOrWhiteSpace(source.Description) ? null : source.Description.Trim();
 
             supplierWriteRepository.Update(targetSupplier);
             await unitOfWork.SaveChangesAsync(cancellationToken);

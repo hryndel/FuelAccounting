@@ -71,8 +71,8 @@ namespace FuelAccounting.Services.Implementations
             var item = new Trailer
             {
                 Id = Guid.NewGuid(),
-                Name = trailer.Name,
-                Number = trailer.Number,
+                Name = trailer.Name.Trim(),
+                Number = trailer.Number.Trim(),
                 Capacity = trailer.Capacity
             };
 
@@ -89,8 +89,8 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<Trailer>(source.Id);
             }
 
-            targetTrailer.Name = source.Name;
-            targetTrailer.Number = source.Number;
+            targetTrailer.Name = source.Name.Trim();
+            targetTrailer.Number = source.Number.Trim();
             targetTrailer.Capacity = source.Capacity;
 
             trailerWriteRepository.Update(targetTrailer);
