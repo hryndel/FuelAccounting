@@ -26,7 +26,7 @@ namespace FuelAccounting.API.Validators.Supplier
             RuleFor(supplier => supplier.Inn)
                 .NotNull().WithMessage("ИНН не должно быть null.")
                 .NotEmpty().WithMessage("ИНН не должно быть пустым.")
-                .Length(10, 20).WithMessage("ИНН не должно быть меньше 10 и больше 20 символов.")
+                .Matches(@"^(\d{10}|\d{12})$").WithMessage("ИНН должен быть 10 или 12 символов.")
                 .Must((supplier, _) =>
                 {
                     var innExists = supplierReadRepository.AnyByInnAndId(supplier.Inn, supplier.Id);
@@ -37,7 +37,7 @@ namespace FuelAccounting.API.Validators.Supplier
                 .NotNull().WithMessage("Номер телефона не должен быть null.")
                 .NotEmpty().WithMessage("Номер телефона не должен быть пустым.")
                 .Length(2, 20).WithMessage("Номер телефона не должен быть меньше 2 и больше 20 символов.")
-                .Matches(@"^[1-9][(]\d{3}[)][-]\d{3}[-]\d{2}[-]\d{2}").WithMessage("Номер должен быть действительным.")
+                .Matches(@"^[1-9][(]\d{3}[)][-]\d{3}[-]\d{2}[-]\d{2}$").WithMessage("Номер должен быть действительным.")
                 .Must((supplier, _) =>
                 {
                     var phoneExists = supplierReadRepository.AnyByPhoneAndId(supplier.Phone, supplier.Id);

@@ -31,7 +31,7 @@ namespace FuelAccounting.API.Validators.Driver
                 .NotNull().WithMessage("Телефон не должен быть null")
                 .NotEmpty().WithMessage("Телефон не должен быть пустым")
                 .Length(2, 20).WithMessage("Телефон не должен быть меньше 2 и больше 20 символов")
-                .Matches(@"^[1-9][(]\d{3}[)][-]\d{3}[-]\d{2}[-]\d{2}").WithMessage("Номер должен быть действительным.")
+                .Matches(@"^[1-9][(]\d{3}[)][-]\d{3}[-]\d{2}[-]\d{2}$").WithMessage("Номер должен быть действительным.")
                 .MustAsync(async (phone, CancellationToken) =>
                 {
                     var phoneExists = await driverReadRepository.AnyByPhoneAsync(phone, CancellationToken);
