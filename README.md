@@ -5,9 +5,9 @@
 INSERT INTO Users(Id, FirstName, LastName, Patronymic, Mail, [Login], [Password], UserType, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
 	VALUES ('8332F643-7441-48DE-B864-1239FE95FB89', 'Вячеслав', 'Николаев', 'Александрович', 'nikolay@mail.ru', 'Nikolay', '$2a$11$lsI2QrcHH5U8Xf8TkNmvfO7JOm1mumCZPMIeAM3RaN741I.67WDVq', 1, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Users(Id, FirstName, LastName, Patronymic, Mail, [Login], [Password], UserType, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
-	VALUES ('AC1A1D03-C2BF-410A-8A45-910F974326B5', 'Игорь', 'Вороненков', NULL, 'voron2004@gmail.com', 'Voron', '$2a$11$zzfMpHPA1H4a1O7gFyq93u3H/4.PxxNjXJSAEGiQQkEB6WUhoogJi', 0, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+	VALUES ('AC1A1D03-C2BF-410A-8A45-910F974326B5', 'Игорь', 'Вороненков', NULL, 'voron2004@gmail.com', 'Voron', '$2a$11$lsI2QrcHH5U8Xf8TkNmvfO7JOm1mumCZPMIeAM3RaN741I.67WDVq', 0, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Users(Id, FirstName, LastName, Patronymic, Mail, [Login], [Password], UserType, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
-	VALUES ('9DBD6F69-E6E4-49B9-8EA4-F4E1C7847B4A', 'Андрей', 'Кулиш', 'Максимович', 'andrmena2004@gmail.com', 'Admin', '$2a$11$UZJwihTgZjWeHuMT2xjHz.oZ93607hZEukkBPJqv.fwOhRvCt799y', 2, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+	VALUES ('9DBD6F69-E6E4-49B9-8EA4-F4E1C7847B4A', 'Андрей', 'Кулиш', 'Максимович', 'andrmena2004@gmail.com', 'Admin', '$2a$11$lsI2QrcHH5U8Xf8TkNmvfO7JOm1mumCZPMIeAM3RaN741I.67WDVq', 2, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 
 --- Грузовики ---
 INSERT INTO Trucks (Id, [Name], Number, Vin, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
