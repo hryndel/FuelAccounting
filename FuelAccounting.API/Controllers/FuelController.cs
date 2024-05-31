@@ -65,6 +65,7 @@ namespace FuelAccounting.API.Controllers
         [Authorize(Roles = $"{nameof(UserTypes.Manager)}, {nameof(UserTypes.Administrator)}")]
         [ApiOk(typeof(FuelResponse))]
         [ApiConflict]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Create(CreateFuelRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);
@@ -81,6 +82,7 @@ namespace FuelAccounting.API.Controllers
         [ApiOk(typeof(FuelResponse))]
         [ApiNotFound]
         [ApiConflict]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Edit(FuelRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);

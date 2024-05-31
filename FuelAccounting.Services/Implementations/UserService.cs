@@ -100,7 +100,7 @@ namespace FuelAccounting.Services.Implementations
                 throw new FuelAccountingEntityNotFoundException<User>(id);
             }
 
-            if (countAdmins.Count == 1)
+            if (countAdmins.Count == 1 && targetUser.UserType == UserTypes.Administrator)
             {
                 throw new FuelAccountingInvalidOperationException($"Нельзя удалить последнего администратора.");
             }

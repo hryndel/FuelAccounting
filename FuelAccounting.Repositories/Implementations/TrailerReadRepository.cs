@@ -23,8 +23,8 @@ namespace FuelAccounting.Repositories.Implementations
 
         Task<Trailer?> ITrailerReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Trailer>()
-                .ById(id)
                 .NotDeletedAt()
+                .ById(id)
                 .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Trailer>> ITrailerReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken)

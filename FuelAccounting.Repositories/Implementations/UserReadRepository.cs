@@ -24,8 +24,8 @@ namespace FuelAccounting.Repositories.Implementations
 
         Task<User?> IUserReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<User>()
-                .ById(id)
                 .NotDeletedAt()
+                .ById(id)
                 .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, User>> IUserReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken)

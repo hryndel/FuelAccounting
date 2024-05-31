@@ -277,8 +277,8 @@ namespace FuelAccounting.Services.Implementations
                 text = text.Replace("%fuel%", fuelDelivery.Fuel.FuelType.ToString());
                 text = text.Replace("%supplier%", supplier!.Name);
                 text = text.Replace("%count%", fuelDelivery.Count.ToString());
-                text = text.Replace("%price%", fuelDelivery.Fuel.Price.ToString());
-                text = text.Replace("%fullPrice%", $"{fuelDelivery.Count * fuelDelivery.Fuel.Price} руб.");
+                text = text.Replace("%price%", $"{Math.Round(fuelDelivery.Fuel.Price, 2)} руб.");
+                text = text.Replace("%fullPrice%", $"{Math.Round(fuelDelivery.Count * fuelDelivery.Fuel.Price, 2)} руб.");
 
                 var globalSettings = new GlobalSettings
                 {

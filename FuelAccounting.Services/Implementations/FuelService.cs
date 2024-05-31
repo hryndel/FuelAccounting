@@ -61,6 +61,12 @@ namespace FuelAccounting.Services.Implementations
 
         async Task<FuelModel> IFuelService.AddAsync(FuelRequestModel fuel, CancellationToken cancellationToken)
         {
+            var existFuel = fuelReadRepository.GetByTypeAndSupplierAsync((FuelTypes)fuel.FuelType, fuel.SupplierId, cancellationToken);
+            if (existFuel != null)
+            {
+                throw new FuelAccountingInvalidOperationException($"Однотипное топливо с таким поставщиком уже существует.");
+            }
+
             var item = new Fuel
             {
                 Id = Guid.NewGuid(),
@@ -81,6 +87,12 @@ namespace FuelAccounting.Services.Implementations
             if (targetFuel == null)
             {
                 throw new FuelAccountingEntityNotFoundException<Fuel>(source.Id);
+            }
+
+            var existFuel = await fuelReadRepository.GetByTypeAndSupplierAsync((FuelTypes)source.FuelType, source.SupplierId, cancellationToken);
+            if (existFuel != null && existFuel.Id != source.Id)
+            {
+                throw new FuelAccountingInvalidOperationException($"Однотипное топливо с таким поставщиком уже существует.");
             }
 
             targetFuel.FuelType = (FuelTypes)source.FuelType;

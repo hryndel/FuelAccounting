@@ -1,4 +1,5 @@
-﻿using FuelAccounting.Context.Contracts.Models;
+﻿using FuelAccounting.Context.Contracts.Enums;
+using FuelAccounting.Context.Contracts.Models;
 
 namespace FuelAccounting.Repositories.Contracts.Interfaces
 {
@@ -21,6 +22,11 @@ namespace FuelAccounting.Repositories.Contracts.Interfaces
         /// Получить список <see cref="Fuel"/> по идентификаторам
         /// </summary>
         Task<Dictionary<Guid, Fuel>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить <see cref="Fuel"/> по типу и поставщику
+        /// </summary>
+        Task<Fuel?> GetByTypeAndSupplierAsync(FuelTypes fuelType, Guid supplierId, CancellationToken cancellationToken);
 
         /// <summary>
         /// Проверка есть ли <see cref="Fuel"/> по указанному id
