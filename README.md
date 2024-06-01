@@ -3,11 +3,11 @@
 ```
 --- Пользователи ---
 INSERT INTO Users(Id, FirstName, LastName, Patronymic, Mail, [Login], [Password], UserType, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
-	VALUES ('8332F643-7441-48DE-B864-1239FE95FB89', 'Вячеслав', 'Николаев', 'Александрович', 'nikolay@mail.ru', 'Nikolay', '$2a$11$lsI2QrcHH5U8Xf8TkNmvfO7JOm1mumCZPMIeAM3RaN741I.67WDVq', 1, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+	VALUES ('8332F643-7441-48DE-B864-1239FE95FB89', 'Вячеслав', 'Николаев', 'Александрович', 'nikolay@mail.ru', 'Nikolay', '$2a$11$UZJwihTgZjWeHuMT2xjHz.oZ93607hZEukkBPJqv.fwOhRvCt799y', 1, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Users(Id, FirstName, LastName, Patronymic, Mail, [Login], [Password], UserType, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
-	VALUES ('AC1A1D03-C2BF-410A-8A45-910F974326B5', 'Игорь', 'Вороненков', NULL, 'voron2004@gmail.com', 'Voron', '$2a$11$lsI2QrcHH5U8Xf8TkNmvfO7JOm1mumCZPMIeAM3RaN741I.67WDVq', 0, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+	VALUES ('AC1A1D03-C2BF-410A-8A45-910F974326B5', 'Игорь', 'Вороненков', NULL, 'voron2004@gmail.com', 'Voron', '$2a$11$UZJwihTgZjWeHuMT2xjHz.oZ93607hZEukkBPJqv.fwOhRvCt799y', 0, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Users(Id, FirstName, LastName, Patronymic, Mail, [Login], [Password], UserType, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
-	VALUES ('9DBD6F69-E6E4-49B9-8EA4-F4E1C7847B4A', 'Андрей', 'Кулиш', 'Максимович', 'andrmena2004@gmail.com', 'Admin', '$2a$11$lsI2QrcHH5U8Xf8TkNmvfO7JOm1mumCZPMIeAM3RaN741I.67WDVq', 2, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+	VALUES ('9DBD6F69-E6E4-49B9-8EA4-F4E1C7847B4A', 'Андрей', 'Кулиш', 'Максимович', 'andrmena2004@gmail.com', 'Admin', '$2a$11$UZJwihTgZjWeHuMT2xjHz.oZ93607hZEukkBPJqv.fwOhRvCt799y', 2, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 
 --- Грузовики ---
 INSERT INTO Trucks (Id, [Name], Number, Vin, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
@@ -16,6 +16,8 @@ INSERT INTO Trucks (Id, [Name], Number, Vin, CreatedAt, CreatedBy, UpdatedAt, Up
 	VALUES ('AB9877A9-1545-4CDE-B1EF-E24A9FD125B3', 'Volvo H9', 'О888ОО198', 'ААРАРD1740WC236961', SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Trucks (Id, [Name], Number, Vin, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
 	VALUES ('0968D976-4DCE-44D2-9BFE-F0405BFC66C9', 'Volvo H6', 'О888ОО98', 'JHLRD1740WC236961', SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+INSERT INTO Trucks (Id, [Name], Number, Vin, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
+	VALUES ('fd901293-f2ff-4903-a238-837f57581c49', 'MAN TGX', 'Е123КХ98', 'ХТА21124070445066', SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 
 --- Полуприцепы ---
 INSERT INTO Trailers (Id, [Name], Number, Capacity, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
@@ -24,6 +26,8 @@ INSERT INTO Trailers (Id, [Name], Number, Capacity, CreatedAt, CreatedBy, Update
 	VALUES ('5BDCCAB7-5350-4FCE-B42C-818BDB53B7B1', 'Tanker 2000', 'ОО8888198', 2000, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Trailers (Id, [Name], Number, Capacity, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
 	VALUES ('41EF7A96-C8A5-4A6C-8AEA-BE9C0785AB3C', 'Tanker Super 10000', 'АА1234198', 10000, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+INSERT INTO Trailers (Id, [Name], Number, Capacity, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
+	VALUES ('a54db4f7-92d9-4cad-99a0-b1aa092844a0', 'Tanker 8000', 'АА000198', 8000, SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 
 --- Поставщики ---
 INSERT INTO Suppliers (Id, [Name], Inn, Phone, [Description], CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
@@ -48,6 +52,8 @@ INSERT INTO Drivers (Id, FirstName, LastName, Patronymic, Phone, DriversLicense,
 	VALUES ('5716A7C9-F4D8-400B-AAB7-A6E92CEE66A0', 'Сергей', 'Сергеев', 'Сергеевич', '7(900)-397-68-97', '11-11-111111', SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 INSERT INTO Drivers (Id, FirstName, LastName, Patronymic, Phone, DriversLicense, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
 	VALUES ('D2381C3C-278B-4B5A-AE82-CB76CC9E91EE', 'Максим', 'Максимов', 'Максимович', '7(908)-614-74-46', '22-22-222222', SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+INSERT INTO Drivers (Id, FirstName, LastName, Patronymic, Phone, DriversLicense, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
+	VALUES ('7ee7975c-325f-4f71-9a8c-ceb9d27ed326', 'Сергей', 'Симонов', 'Донов', '7(954)-039-73-17', '44-44-444444', SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
 
 --- Топливо ---
 INSERT INTO Fuels (Id, FuelType, Price, SupplierId, [Count], CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
@@ -67,4 +73,5 @@ INSERT INTO FuelAccountingItems (Id, DriverId, TruckId, TrailerId, FuelId, [Coun
 INSERT INTO FuelAccountingItems (Id, DriverId, TruckId, TrailerId, FuelId, [Count], FuelStationId, StartDate, EndDate, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, DeletedAt) 
 	VALUES ('8C07AA8C-9156-4D88-9D71-D99FF2781E54', 'D2381C3C-278B-4B5A-AE82-CB76CC9E91EE', 'AB9877A9-1545-4CDE-B1EF-E24A9FD125B3', '23F17DFA-EAED-4721-A748-31345303588B', '974E7785-7064-4919-A8DC-E2B71E649874', 
 	1000, 'F1AA04EF-D0A3-4B72-9553-2A415E1A7400', SYSDATETIMEOFFSET(), DATEADD(day, 10, SYSDATETIMEOFFSET()), SYSDATETIMEOFFSET(), 'Admin', SYSDATETIMEOFFSET(), 'Admin', null);
+
  ```
