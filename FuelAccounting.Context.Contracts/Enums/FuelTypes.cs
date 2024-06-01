@@ -6,22 +6,22 @@
     public enum FuelTypes
     {
         /// <summary>
-        /// Бензин 92 пробы
+        /// АИ-92
         /// </summary>
         Petrol92,
 
         /// <summary>
-        /// Бензин 95 пробы
+        /// АИ-95
         /// </summary>
         Petrol95,
 
         /// <summary>
-        /// Бензин 98 пробы
+        /// АИ-98
         /// </summary>
         Petrol98,
 
         /// <summary>
-        /// Бензин 100 пробы
+        /// АИ-100
         /// </summary>
         Petrol100,
 

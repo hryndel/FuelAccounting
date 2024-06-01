@@ -8,27 +8,27 @@ namespace FuelAccounting.API.Models.Enums
     public enum FuelTypesResponse
     {
         /// <summary>
-        /// Бензин 92 пробы
+        /// АИ-92
         /// </summary>
-        [Description("Бензин 92 пробы")]
+        [Description("АИ-92")]
         Petrol92,
 
         /// <summary>
-        /// Бензин 95 пробы
+        /// АИ-95
         /// </summary>
-        [Description("Бензин 95 пробы")]
+        [Description("АИ-95")]
         Petrol95,
 
         /// <summary>
-        /// Бензин 98 пробы
+        /// АИ-98
         /// </summary>
-        [Description("Бензин 98 пробы")]
+        [Description("АИ-98")]
         Petrol98,
 
         /// <summary>
-        /// Бензин 100 пробы
+        /// АИ-100
         /// </summary>
-        [Description("Бензин 100 пробы")]
+        [Description("АИ-100")]
         Petrol100,
 
         /// <summary>

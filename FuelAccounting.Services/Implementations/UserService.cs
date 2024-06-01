@@ -14,16 +14,19 @@ namespace FuelAccounting.Services.Implementations
     {
         private readonly IUserReadRepository userReadRepository;
         private readonly IUserWriteRepository userWriteRepository;
+        private readonly IIdentityProvider identityProvider;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public UserService(IUserReadRepository userReadRepository,
             IUserWriteRepository userWriteRepository,
+            IIdentityProvider identityProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.userReadRepository = userReadRepository;
             this.userWriteRepository = userWriteRepository;
+            this.identityProvider = identityProvider;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -98,6 +101,11 @@ namespace FuelAccounting.Services.Implementations
             if (targetUser == null)
             {
                 throw new FuelAccountingEntityNotFoundException<User>(id);
+            }
+
+            if (targetUser.Login == identityProvider.Name)
+            {
+                throw new FuelAccountingInvalidOperationException($"Нельзя удалить свою учетную запись.");
             }
 
             if (countAdmins.Count == 1 && targetUser.UserType == UserTypes.Administrator)
