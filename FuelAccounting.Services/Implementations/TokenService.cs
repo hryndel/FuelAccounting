@@ -25,10 +25,17 @@ namespace FuelAccounting.Services.Implementations
             {
                 throw new FuelAccountingNotFoundException("Пользователь не найден.");
             }
-            
-            if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
+
+            try
             {
-                throw new FuelAccountingInvalidOperationException("Неверный пароль.");
+                if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
+                {
+                    throw new FuelAccountingInvalidOperationException("Неверный пароль.");
+                }
+            }
+            catch
+            {
+                throw new FuelAccountingInvalidOperationException("Не удалось верифицировать пароль.");
             }
 
              var claims = new List<Claim>            
