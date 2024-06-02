@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.API", "FuelAccounting.API\FuelAccounting.API.csproj", "{B5124DF3-E199-4E6F-9840-32F0FC4AD761}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Common.Entity", "FuelAccounting.Common.Entity\FuelAccounting.Common.Entity.csproj", "{42482F66-4B19-4A7E-BBC7-F90A1C83E62A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Context.Configuration", "FuelAccounting.Context.Configuration\FuelAccounting.Context.Configuration.csproj", "{57C35221-0706-41FC-8BFB-31004400D5BA}"
@@ -22,8 +24,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Services", "FuelAccounting.Services\FuelAccounting.Services.csproj", "{FCD26F0A-A52A-4C21-A9A8-367F6C1EDDC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelAccounting.Services.Contracts", "FuelAccounting.Services.Contracts\FuelAccounting.Services.Contracts.csproj", "{6F688DED-CA06-4B99-ABA6-E45517372F68}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAccounting.API", "FuelAccounting.API\FuelAccounting.API.csproj", "{B5124DF3-E199-4E6F-9840-32F0FC4AD761}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
